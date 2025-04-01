@@ -1,0 +1,173 @@
+/* Text Shadow */
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Animasi Salju (Winter) */
+@keyframes fall1 {
+  0% { transform: translateY(-15px) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(10px) rotate(180deg); opacity: 1; }
+  100% { transform: translateY(35px) rotate(360deg); opacity: 0.8; }
+}
+
+@keyframes fall2 {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(15px) rotate(-180deg); opacity: 1; }
+  100% { transform: translateY(50px) rotate(-360deg); opacity: 0.8; }
+}
+
+@keyframes fall3 {
+  0% { transform: translateY(-25px) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(20px) rotate(180deg); opacity: 1; }
+  100% { transform: translateY(65px) rotate(360deg); opacity: 0.8; }
+}
+
+@keyframes fall4 {
+  0% { transform: translateY(-15px) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(10px) rotate(-180deg); opacity: 1; }
+  100% { transform: translateY(35px) rotate(-360deg); opacity: 0.8; }
+}
+
+@keyframes fall5 {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(15px) rotate(180deg); opacity: 1; }
+  100% { transform: translateY(50px) rotate(360deg); opacity: 0.8; }
+}
+
+.animate-fall1 {
+  animation: fall1 8s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+.animate-fall2 {
+  animation: fall2 12s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+.animate-fall3 {
+  animation: fall3 10s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+.animate-fall4 {
+  animation: fall4 15s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+.animate-fall5 {
+  animation: fall5 9s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+/* Animasi Kelopak Bunga (Spring) */
+@keyframes float1 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(-15px) rotate(15deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+}
+
+@keyframes float2 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(-10px) rotate(-15deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+}
+
+@keyframes float3 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+}
+
+@keyframes float4 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(-12px) rotate(-10deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+}
+
+.animate-float1 {
+  animation: float1 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.7));
+}
+
+.animate-float2 {
+  animation: float2 10s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.7));
+}
+
+.animate-float3 {
+  animation: float3 9s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.7));
+}
+
+.animate-float4 {
+  animation: float4 11s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.7));
+}
+
+/* Animasi Cahaya (Summer) */
+@keyframes pulse1 {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+@keyframes pulse2 {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.animate-pulse1 {
+  animation: pulse1 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(253, 224, 71, 0.8));
+}
+
+.animate-pulse2 {
+  animation: pulse2 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(253, 224, 71, 0.8));
+}
+
+/* Animasi Daun (Fall) */
+@keyframes leaf1 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(20px) rotate(15deg); opacity: 1; }
+  100% { transform: translateY(40px) rotate(30deg); opacity: 0.8; }
+}
+
+@keyframes leaf2 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(15px) rotate(-10deg); opacity: 1; }
+  100% { transform: translateY(30px) rotate(-20deg); opacity: 0.8; }
+}
+
+@keyframes leaf3 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(25px) rotate(20deg); opacity: 1; }
+  100% { transform: translateY(50px) rotate(40deg); opacity: 0.8; }
+}
+
+@keyframes leaf4 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(20px) rotate(-15deg); opacity: 1; }
+  100% { transform: translateY(40px) rotate(-30deg); opacity: 0.8; }
+}
+
+.animate-leaf1 {
+  animation: leaf1 10s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(217, 119, 6, 0.7));
+}
+
+.animate-leaf2 {
+  animation: leaf2 8s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.7));
+}
+
+.animate-leaf3 {
+  animation: leaf3 12s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(161, 98, 7, 0.7));
+}
+
+.animate-leaf4 {
+  animation: leaf4 9s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(194, 65, 12, 0.7));
+} 

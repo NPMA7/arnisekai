@@ -1,0 +1,25 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Kotak background dengan gradient -->
+  <rect x="4" y="4" width="40" height="40" rx="8" fill="url(#gradient)" />
+
+  <!-- Huruf "A" di tengah -->
+  <text x="24" y="30" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">A</text>
+
+  <!-- Titik biru yang berkedip di pojok kanan atas -->
+  <circle cx="40" cy="8" r="4" fill="#60A5FA">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Titik ungu yang berkedip di pojok kiri bawah -->
+  <circle cx="8" cy="40" r="3" fill="#A78BFA">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="1s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Definisi gradient -->
+  <defs>
+    <linearGradient id="gradient" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B82F6"/> <!-- blue-500 -->
+      <stop offset="100%" stop-color="#8B5CF6"/> <!-- purple-600 -->
+    </linearGradient>
+  </defs>
+</svg> 
