@@ -1,12 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import AnimeCard from "@/components/AnimeCard";
 
-export default function SearchPage() {
+// Komponen utama yang menggunakan useSearchParams
+function SearchContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const query = searchParams.get("q") || "";
@@ -375,5 +376,14 @@ export default function SearchPage() {
         {!isLoading && !error && filteredResults.length > 0 && renderPagination()}
       </div>
     </main>
+  );
+}
+
+// Wrapper komponen dengan Suspense
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchContent />
+    </Suspense>
   );
 } 
