@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
+import { getDonghuaUrl } from "@/lib/apiConfig";
 
 export default function DonghuaGenreDetailPage() {
   const params = useParams();
@@ -25,11 +26,7 @@ export default function DonghuaGenreDetailPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch(`https://anyapi-beta.vercel.app/v1/donghua/anichin/genres/${genreSlug}/${pageParam}`, {
-          headers: {
-            "X-API-Key": apiKey,
-          },
+        const response = await fetch(getDonghuaUrl(`genres/${genreSlug}${pageParam > 1 ? `/${pageParam}` : ''}`), {
           cache: "no-store",
         });
         
@@ -40,6 +37,15 @@ export default function DonghuaGenreDetailPage() {
         const data = await response.json();
         setGenreData(data);
         setError(null);
+
+        // Fetch the genre details if we're on the first page
+        if (pageParam === 1) {
+          const genreResponse = await fetch(getDonghuaUrl('genres'), {
+            cache: "no-store",
+          });
+          
+          // ... existing code ...
+        }
       } catch (err) {
         console.error("Error fetching genre data:", err);
         setError("Terjadi kesalahan saat mengambil data. Silakan coba lagi nanti.");
@@ -59,7 +65,6 @@ export default function DonghuaGenreDetailPage() {
     
     setIsLoadingAll(true);
     try {
-      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
       const totalPages = genreData.data.pagination.total_pages;
       let allItems = [];
       
@@ -71,10 +76,7 @@ export default function DonghuaGenreDetailPage() {
       for (let page = 1; page <= totalPages; page++) {
         if (page === Number(pageParam)) continue; // Lewati halaman saat ini
         
-        const promise = fetch(`https://anyapi-beta.vercel.app/v1/donghua/anichin/genres/${genreSlug}/${page}`, {
-          headers: {
-            "X-API-Key": apiKey,
-          },
+        const promise = fetch(getDonghuaUrl(`genres/${genreSlug}/${page}`), {
           cache: "no-store",
         })
         .then(response => response.json())
@@ -243,7 +245,7 @@ export default function DonghuaGenreDetailPage() {
       <div className="bg-[#0f1729] border-b border-gray-800">
         {/* Background dengan gambar dan overlay gradient */}
         <div className="relative">
-          <div className="container mx-auto px-4 py-12 relative z-20">
+          <div className="container mx-auto px-4 py-8 relative z-20">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h1 className="text-4xl font-bold text-white mb-2 flex items-center">
@@ -252,7 +254,7 @@ export default function DonghuaGenreDetailPage() {
                 </h1>
                 {!isSearchMode && pagination && (
                   <p className="text-blue-100">
-                    Halaman {pagination.current_page} dari {pagination.total_pages} · Total {pagination.total_pages * 10}+ donghua
+                    Halaman {pagination.current_page} dari {pagination.total_pages} · Total {totalDonghuaCount}+ donghua
                   </p>
                 )}
                 {isSearchMode && (

@@ -1,34 +1,83 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { getAnimeUrl } from "../lib/apiConfig";
 
 const StatisticsSection = () => {
+  // Hitung donghua count berdasarkan formula
+  const donghuaCountValue = (20 * 5) + (20 * 20 * 48); // ongoing + completed
+
+  // Initial values dengan nilai default
   const [stats, setStats] = useState({
-    animeCount: 0,
+    animeCount: 0, // Mulai dari 0
     donghuaCount: 0,
     episodeCount: 0,
     userCount: 0
   });
   
   const [isVisible, setIsVisible] = useState(false);
+  const [isApiLoaded, setIsApiLoaded] = useState(false);
   
-  // Statistik target
-  const targetStats = {
-    animeCount: 1000,
-    donghuaCount: 1000,
-    episodeCount: 25000,
-    userCount: 1000
-  };
+  // Ref untuk menyimpan nilai target animasi
+  const targetStats = useRef({
+    animeCount: 0, // Nilai API akan menggantikan ini
+    donghuaCount: donghuaCountValue, // Formula: 20*5 + 20*20*48
+    episodeCount: 0, // Akan dihitung berdasarkan anime + donghua
+    userCount: 0
+  });
   
+  // Fetch data anime dari API
   useEffect(() => {
-    // Observer untuk memulai animasi ketika komponen terlihat di viewport
+    const fetchAnimeData = async () => {
+      try {
+        const response = await fetch(getAnimeUrl('anime-list/1'), {
+          cache: "no-store",
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Gagal mengambil data anime: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data?.data?.animes && data?.data?.pagination) {
+          const animePerPage = data.data.animes.length;
+          const totalPages = data.data.pagination.total_pages;
+          
+          // Hitung total anime
+          const totalAnime = animePerPage * totalPages;
+          
+          // Hitung episode count berdasarkan formula (animeCount + donghuaCount) * 12
+          const episodeCount = (totalAnime + targetStats.current.donghuaCount) * 12;
+          
+          // Update nilai target animasi dengan data API dan perhitungan episode
+          targetStats.current = {
+            ...targetStats.current,
+            animeCount: totalAnime,
+            episodeCount: episodeCount
+          };
+          
+          setIsApiLoaded(true);
+        } else {
+          setIsApiLoaded(true); // Tetap set loaded meskipun ada error
+        }
+      } catch (error) {
+        setIsApiLoaded(true); // Tetap set loaded meskipun ada error
+      }
+    };
+    
+    fetchAnimeData();
+  }, []);
+  
+  // Deteksi visibility untuk memulai animasi
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 } // Trigger ketika 10% dari elemen terlihat
+      { threshold: 0.1 }
     );
     
     const element = document.getElementById('statistics-section');
@@ -43,19 +92,22 @@ const StatisticsSection = () => {
     };
   }, []);
   
-  // Animasi penghitung
+  // Animasi penghitung ketika section visible DAN data API sudah dimuat
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible || !isApiLoaded) {
+      return; // Tunggu hingga section visible dan API loaded
+    }
     
-    const duration = 2000; // Durasi animasi dalam ms
-    const steps = 20; // Jumlah langkah animasi
+    const duration = 2000;
+    const steps = 20;
     const interval = duration / steps;
     
-    const counters = {
-      animeCount: { start: 0, end: targetStats.animeCount, current: 0 },
-      donghuaCount: { start: 0, end: targetStats.donghuaCount, current: 0 },
-      episodeCount: { start: 0, end: targetStats.episodeCount, current: 0 },
-      userCount: { start: 0, end: targetStats.userCount, current: 0 }
+    // Selalu mulai dari 0
+    const startValues = {
+      animeCount: 0,
+      donghuaCount: 0,
+      episodeCount: 0,
+      userCount: 0
     };
     
     let step = 0;
@@ -67,8 +119,9 @@ const StatisticsSection = () => {
       const easeProgress = easeOutQuart(progress);
       
       const newStats = {};
-      Object.keys(counters).forEach(key => {
-        const { start, end } = counters[key];
+      Object.keys(startValues).forEach(key => {
+        const start = startValues[key];
+        const end = targetStats.current[key];
         newStats[key] = Math.round(start + (end - start) * easeProgress);
       });
       
@@ -76,14 +129,20 @@ const StatisticsSection = () => {
       
       if (step >= steps) {
         clearInterval(timer);
-        setStats(targetStats); // Pastikan nilai akhir tepat
+        // Set nilai akhir persis sama dengan target
+        setStats({
+          animeCount: targetStats.current.animeCount,
+          donghuaCount: targetStats.current.donghuaCount,
+          episodeCount: targetStats.current.episodeCount,
+          userCount: targetStats.current.userCount
+        });
       }
     }, interval);
     
     return () => clearInterval(timer);
-  }, [isVisible]);
+  }, [isVisible, isApiLoaded]); // Jalankan animasi ketika kedua kondisi terpenuhi
   
-  // Fungsi easing untuk animasi yang lebih alami
+  // Fungsi easing untuk animasi
   const easeOutQuart = (x) => {
     return 1 - Math.pow(1 - x, 4);
   };
@@ -162,7 +221,7 @@ const StatisticsSection = () => {
               <div className={`inline-flex items-center justify-center w-16 h-16 rounded-lg bg-gradient-to-br ${item.color} mb-4 text-white`}>
                 {item.icon}
               </div>
-              <div className="text-3xl md:text-4xl font-bold text-white">{item.value}+</div>
+              <div className="text-xl md:text-2xl font-bold text-white">{item.value}+</div>
               <div className="text-gray-400 text-sm mt-1">{item.title}</div>
             </motion.div>
           ))}

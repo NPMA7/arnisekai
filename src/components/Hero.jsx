@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { getAnimeUrl, getDonghuaUrl } from "@/lib/apiConfig";
 
 const Hero = () => {
   const [backgroundImages, setBackgroundImages] = useState([]);
@@ -15,26 +16,18 @@ const Hero = () => {
   useEffect(() => {
     const fetchBackgroundImages = async () => {
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-
         // Fetch donghua data
         const donghuaRes = await fetch(
-          "https://anyapi-beta.vercel.app/v1/donghua/anichin/ongoing",
+          getDonghuaUrl("ongoing"),
           {
-            headers: {
-              "X-API-Key": apiKey,
-            },
             cache: "no-store",
           }
         );
 
         // Fetch anime data
         const animeRes = await fetch(
-          "https://anyapi-beta.vercel.app/v1/anime/samehadaku/ongoing",
+          getAnimeUrl("ongoing"),
           {
-            headers: {
-              "X-API-Key": apiKey,
-            },
             cache: "no-store",
           }
         );
@@ -129,25 +122,18 @@ const Hero = () => {
     if (!keyword || keyword.trim() === "") return;
 
     try {
-      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
       setIsSearching(true);
 
       // Membuat URL pencarian untuk donghua dan anime
-      const donghuaSearchUrl = `https://anyapi-beta.vercel.app/v1/donghua/anichin/search/${encodeURIComponent(
-        keyword
-      )}`;
-      const animeSearchUrl = `https://anyapi-beta.vercel.app/v1/anime/samehadaku/search/${encodeURIComponent(
-        keyword
-      )}`;
+      const donghuaSearchUrl = getDonghuaUrl(`search/${encodeURIComponent(keyword)}`);
+      const animeSearchUrl = getAnimeUrl(`search/${encodeURIComponent(keyword)}`);
 
       // Melakukan kedua pencarian secara paralel
       const [donghuaRes, animeRes] = await Promise.all([
         fetch(donghuaSearchUrl, {
-          headers: { "X-API-Key": apiKey },
           cache: "no-store",
         }),
         fetch(animeSearchUrl, {
-          headers: { "X-API-Key": apiKey },
           cache: "no-store",
         }),
       ]);
@@ -216,8 +202,9 @@ const Hero = () => {
       setSearchResults(limitedResults);
       setShowResults(true);
     } catch (error) {
-      console.error("Error fetching search results:", error);
+      console.error("Error searching:", error);
       setSearchResults([]);
+      setShowResults(true);
     } finally {
       setIsSearching(false);
     }

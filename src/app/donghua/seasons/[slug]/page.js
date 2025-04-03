@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import SeasonHeader from "@/components/SeasonHeader";
 import SearchBar from "@/components/SearchBar";
 import "../seasons.css";
+import { getDonghuaUrl } from "@/lib/apiConfig";
 
 export default function DonghuaSeasonDetailPage() {
   const params = useParams();
@@ -22,11 +23,7 @@ export default function DonghuaSeasonDetailPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch(`https://anyapi-beta.vercel.app/v1/donghua/anichin/seasons/${seasonSlug}`, {
-          headers: {
-            "X-API-Key": apiKey,
-          },
+        const response = await fetch(getDonghuaUrl(`seasons/${seasonSlug}`), {
           cache: "no-store",
         });
         
@@ -296,35 +293,48 @@ export default function DonghuaSeasonDetailPage() {
 
         {/* Donghua List */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
-          {sortedDonghua.map((item, index) => (
-            <Link key={index} href={item.url.replace("https://anyapi-beta.vercel.app/v1/donghua/anichin/detail/", "/donghua/")} className="group">
-              <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-blue-900/30 hover:shadow-xl transition-all duration-300">
+          {sortedDonghua.map((item, index) => {
+            // Dapatkan slug dari URL
+            const getSlug = () => {
+              if (!item.url) return '';
+              if (item.url.includes('/detail/')) {
+                return item.url.split('/detail/').pop();
+              }
+              return item.slug || '';
+            };
+            
+            const donghuaSlug = getSlug();
+            
+            return (
+              <Link key={index} href={`/donghua/${donghuaSlug}`} className="group">
+                <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-blue-900/30 hover:shadow-xl transition-all duration-300">
                   <Image 
-                  src={item.poster} 
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
-                  className="object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
-                  loading={index < 12 ? "eager" : "lazy"}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                <div className="absolute top-2 right-2 bg-blue-600 text-xs font-medium py-1 px-2 rounded-full backdrop-blur-sm shadow-sm">
-                  {item.type}
-                </div>
-                
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/95 via-black/80 to-transparent transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="line-clamp-2 text-sm font-semibold text-white mb-1 group-hover:text-blue-300 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                    {item.status || "Ongoing"}
-                  </p>
-                </div>
+                    src={item.poster} 
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                    loading={index < 12 ? "eager" : "lazy"}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  <div className="absolute top-2 right-2 bg-blue-600 text-xs font-medium py-1 px-2 rounded-full backdrop-blur-sm shadow-sm">
+                    {item.type}
+                  </div>
+                  
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/95 via-black/80 to-transparent transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 className="line-clamp-2 text-sm font-semibold text-white mb-1 group-hover:text-blue-300 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                      {item.status || "Ongoing"}
+                    </p>
+                  </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         
         {/* Kosong */}
         {sortedDonghua.length === 0 && (

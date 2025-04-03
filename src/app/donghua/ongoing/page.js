@@ -3,22 +3,24 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter, useParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
+import { getDonghuaUrl } from "@/lib/apiConfig";
+
 export default function OngoingDonghuaPage() {
+  const router = useRouter();
+  const params = useParams();
+  const pageNumber = params.page || 1;
+  
   const [donghuaData, setDonghuaData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const pageNumber = 1; // Selalu halaman 1 untuk URL tanpa nomor halaman
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch(`https://anyapi-beta.vercel.app/v1/donghua/anichin/ongoing/${pageNumber}`, {
-          headers: {
-            "X-API-Key": apiKey,
-          },
+        const response = await fetch(getDonghuaUrl(`ongoing/${pageNumber}`), {
           cache: "no-store",
         });
         
@@ -38,7 +40,31 @@ export default function OngoingDonghuaPage() {
     };
 
     fetchData();
-  }, []);
+  }, [pageNumber]);
+
+  // Fungsi untuk navigasi ke halaman lain
+  const goToPage = (page) => {
+    if (page === 1) {
+      router.push("/donghua/ongoing");
+    } else {
+      router.push(`/donghua/ongoing/${page}`);
+    }
+  };
+
+  // Fungsi untuk mendapatkan URL yang benar dari slug
+  const getCorrectUrl = (item) => {
+    if (item.slug) {
+      return `/donghua/${item.slug}`;
+    }
+    // Jika URL lengkap tersedia, ekstrak slug dari URL
+    if (item.url) {
+      // Ekstrak slug dari URL API
+      const urlParts = item.url.split('/');
+      const slug = urlParts[urlParts.length - 1];
+      return `/donghua/${slug}`;
+    }
+    return '#'; // Fallback jika tidak ada slug atau URL
+  };
 
   if (loading) {
     return <LoadingState />;
@@ -61,6 +87,8 @@ export default function OngoingDonghuaPage() {
     );
   }
 
+  const currentPage = donghuaData?.pagination?.page || Number(pageNumber);
+
   return (
     <div className="bg-[#0f1729] mx-auto px-4 py-8">
       {/* Navigasi Breadcrumb */}
@@ -72,7 +100,15 @@ export default function OngoingDonghuaPage() {
               <span className="mx-2 text-gray-600">/</span>
               <Link href="/donghua" className="text-gray-400 hover:text-white transition-colors">Donghua</Link>
               <span className="mx-2 text-gray-600">/</span>
+              {currentPage > 1 ? (
+                <>
+                  <Link href="/donghua/ongoing" className="text-gray-400 hover:text-white transition-colors">Ongoing</Link>
+                  <span className="mx-2 text-gray-600">/</span>
+                  <span className="text-white font-medium">Halaman {currentPage}</span>
+                </>
+              ) : (
               <span className="text-white font-medium">Ongoing</span>
+              )}
             </div>
             
             <SearchBar className="w-full sm:w-64 md:w-72" />
@@ -100,6 +136,12 @@ export default function OngoingDonghuaPage() {
             <Link href="/donghua/completed" className="bg-blue-900/50 text-blue-100 px-4 py-1.5 rounded-full hover:bg-blue-800/70 transition-colors text-sm">
               Completed
             </Link>
+            <Link href="/donghua/genres" className="bg-blue-900/50 text-blue-100 px-4 py-1.5 rounded-full hover:bg-blue-800/70 transition-colors text-sm">
+            Daftar Genre
+          </Link>
+          <Link href="/donghua/seasons" className="bg-blue-900/50 text-blue-100 px-4 py-1.5 rounded-full hover:bg-blue-800/70 transition-colors text-sm">
+            Daftar Seasons
+          </Link>
           </div>
         </div>
       </div>
@@ -107,7 +149,9 @@ export default function OngoingDonghuaPage() {
       {/* Ongoing Donghua Grid */}
       <section className="mb-16">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">Donghua Ongoing</h2>
+          <h2 className="text-2xl font-bold text-white">
+            {currentPage > 1 ? `Donghua Ongoing - Halaman ${currentPage}` : "Donghua Ongoing"}
+          </h2>
           <div className="text-sm text-gray-400">
             {donghuaData?.data?.ongoing_donghua?.length || 0} Series
           </div>
@@ -115,7 +159,7 @@ export default function OngoingDonghuaPage() {
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
           {donghuaData?.data?.ongoing_donghua?.map((item, index) => (
-            <Link key={index} href={item.url.replace("https://anyapi-beta.vercel.app/v1/donghua/anichin/detail/", "/donghua/")} className="group">
+            <Link key={index} href={getCorrectUrl(item)} className="group">
               <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-indigo-900/30 hover:shadow-xl transition-all duration-300">
                 <Image 
                   src={item.poster} 
@@ -151,21 +195,81 @@ export default function OngoingDonghuaPage() {
       </section>
 
       {/* Pagination */}
-      {donghuaData?.pagination?.next_page && (
-        <div className="flex justify-center my-10">
-          <div className="flex gap-2">
-            <div className="px-4 py-2 bg-blue-900/30 rounded-md text-white">
-              Halaman {pageNumber}
-            </div>
+      {donghuaData?.pagination && (
+        <div className="mt-8 flex justify-center">
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {/* Tombol Previous */}
+            <button 
+              onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
+              disabled={currentPage <= 1}
+              className={`px-4 py-2 rounded ${currentPage <= 1 
+                ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+              } transition-colors`}
+            >
+              Sebelumnya
+            </button>
             
-            {donghuaData?.pagination?.next_page && (
-              <Link
-                href={`/donghua/ongoing/${donghuaData.pagination.next_page}`}
-                className="px-4 py-2 bg-blue-900/60 hover:bg-blue-800 rounded-md transition-colors text-white"
+            {/* Daftar Halaman */}
+            <div className="flex flex-wrap items-center gap-1">
+              {/* Page 1 */}
+              <button
+                onClick={() => goToPage(1)}
+                className={`w-10 h-10 rounded ${currentPage === 1 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-700 hover:bg-gray-600 text-gray-200'
+                } transition-colors`}
               >
-                Selanjutnya →
-              </Link>
-            )}
+                1
+              </button>
+              
+              {/* Ellipsis if needed */}
+              {currentPage > 3 && (
+                <span className="w-10 h-10 flex items-center justify-center text-gray-400">...</span>
+              )}
+              
+              {/* Show pages around current page */}
+              {currentPage > 2 && (
+                <button
+                  onClick={() => goToPage(currentPage - 1)}
+                  className="w-10 h-10 rounded bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors"
+                >
+                  {currentPage - 1}
+                </button>
+              )}
+              
+              {/* Current page (if not 1) */}
+              {currentPage > 1 && (
+                <button
+                  onClick={() => goToPage(currentPage)}
+                  className="w-10 h-10 rounded bg-blue-600 text-white transition-colors"
+                >
+                  {currentPage}
+                </button>
+              )}
+              
+              {/* Page after current */}
+            {donghuaData?.pagination?.next_page && (
+                <button
+                  onClick={() => goToPage(Number(donghuaData.pagination.next_page))}
+                  className="w-10 h-10 rounded bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors"
+                >
+                  {donghuaData.pagination.next_page}
+                </button>
+              )}
+              
+              {/* Tombol Next */}
+              <button 
+                onClick={() => donghuaData?.pagination?.next_page && goToPage(Number(donghuaData.pagination.next_page))}
+                disabled={!donghuaData?.pagination?.next_page}
+                className={`px-4 py-2 rounded ml-1 ${!donghuaData?.pagination?.next_page
+                  ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+                } transition-colors`}
+              >
+                Selanjutnya
+              </button>
+            </div>
           </div>
         </div>
       )}

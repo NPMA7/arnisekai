@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import AnimeCard from "@/components/AnimeCard";
+import { getAnimeUrl, getDonghuaUrl } from "@/lib/apiConfig";
 
 // Komponen utama yang menggunakan useSearchParams
 function SearchContent() {
@@ -36,20 +37,16 @@ function SearchContent() {
       setError(null);
       
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        
         // Membuat URL pencarian untuk donghua dan anime dengan pagination
-        const donghuaSearchUrl = `https://anyapi-beta.vercel.app/v1/donghua/anichin/search/${encodeURIComponent(query)}${currentPage > 1 ? `/${currentPage}` : ''}`;
-        const animeSearchUrl = `https://anyapi-beta.vercel.app/v1/anime/samehadaku/search/${encodeURIComponent(query)}${currentPage > 1 ? `/${currentPage}` : ''}`;
+        const donghuaSearchUrl = getDonghuaUrl(`search/${encodeURIComponent(query)}${currentPage > 1 ? `/${currentPage}` : ''}`);
+        const animeSearchUrl = getAnimeUrl(`search/${encodeURIComponent(query)}${currentPage > 1 ? `/${currentPage}` : ''}`);
         
         // Melakukan kedua pencarian secara paralel
         const [donghuaRes, animeRes] = await Promise.all([
           fetch(donghuaSearchUrl, {
-            headers: { "X-API-Key": apiKey },
             cache: "no-store"
           }),
           fetch(animeSearchUrl, {
-            headers: { "X-API-Key": apiKey },
             cache: "no-store"
           })
         ]);

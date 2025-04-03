@@ -5,14 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
-import { getDonghuaUrl } from "@/lib/apiConfig";
+import { getAnimeUrl } from "@/lib/apiConfig";
 
-export default function CompletedDonghuaPage() {
+export default function OngoingAnimePage() {
   const router = useRouter();
   const params = useParams();
   const pageNumber = params.page || 1;
   
-  const [donghuaData, setDonghuaData] = useState(null);
+  const [animeData, setAnimeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,19 +20,19 @@ export default function CompletedDonghuaPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(getDonghuaUrl(`completed/${pageNumber}`), {
+        const response = await fetch(getAnimeUrl(`ongoing/${pageNumber}`), {
           cache: "no-store",
         });
         
         if (!response.ok) {
-          throw new Error("Gagal mengambil data donghua completed");
+          throw new Error("Gagal mengambil data anime ongoing");
         }
         
         const data = await response.json();
-        setDonghuaData(data);
+        setAnimeData(data);
         setError(null);
       } catch (err) {
-        console.error("Error fetching completed donghua data:", err);
+        console.error("Error fetching ongoing anime data:", err);
         setError("Terjadi kesalahan saat mengambil data. Silakan coba lagi nanti.");
       } finally {
         setLoading(false);
@@ -45,25 +45,10 @@ export default function CompletedDonghuaPage() {
   // Fungsi untuk navigasi ke halaman lain
   const goToPage = (page) => {
     if (page === 1) {
-      router.push("/donghua/completed");
+      router.push("/anime/ongoing");
     } else {
-      router.push(`/donghua/completed/${page}`);
+      router.push(`/anime/ongoing/${page}`);
     }
-  };
-
-  // Fungsi untuk mendapatkan URL yang benar dari slug
-  const getCorrectUrl = (item) => {
-    if (item.slug) {
-      return `/donghua/${item.slug}`;
-    }
-    // Jika URL lengkap tersedia, ekstrak slug dari URL
-    if (item.url) {
-      // Ekstrak slug dari URL API
-      const urlParts = item.url.split('/');
-      const slug = urlParts[urlParts.length - 1];
-      return `/donghua/${slug}`;
-    }
-    return '#'; // Fallback jika tidak ada slug atau URL
   };
 
   if (loading) {
@@ -78,7 +63,7 @@ export default function CompletedDonghuaPage() {
           <p className="text-gray-300 mb-4">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-md transition-colors"
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md transition-colors"
           >
             Coba Lagi
           </button>
@@ -87,7 +72,7 @@ export default function CompletedDonghuaPage() {
     );
   }
 
-  const currentPage = donghuaData?.pagination?.page || Number(pageNumber);
+  const currentPage = animeData?.data?.pagination?.current_page || Number(pageNumber);
 
   return (
     <div className="bg-[#0f1729] mx-auto px-4 py-8">
@@ -98,16 +83,16 @@ export default function CompletedDonghuaPage() {
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
               <span className="mx-2 text-gray-600">/</span>
-              <Link href="/donghua" className="text-gray-400 hover:text-white transition-colors">Donghua</Link>
+              <Link href="/anime" className="text-gray-400 hover:text-white transition-colors">Anime</Link>
               <span className="mx-2 text-gray-600">/</span>
               {currentPage > 1 ? (
                 <>
-                  <Link href="/donghua/completed" className="text-gray-400 hover:text-white transition-colors">Completed</Link>
+                  <Link href="/anime/ongoing" className="text-gray-400 hover:text-white transition-colors">Ongoing</Link>
                   <span className="mx-2 text-gray-600">/</span>
                   <span className="text-white font-medium">Halaman {currentPage}</span>
                 </>
               ) : (
-              <span className="text-white font-medium">Completed</span>
+                <span className="text-white font-medium">Ongoing</span>
               )}
             </div>
             
@@ -116,55 +101,54 @@ export default function CompletedDonghuaPage() {
         </div>
       </div>
 
-
       {/* Header Section */}
       <div className="relative mb-12 overflow-hidden rounded-2xl">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-900 to-emerald-900 opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-90"></div>
         <div className="absolute inset-0 bg-[url('/donghua-pattern.jpg')] bg-cover opacity-30 mix-blend-overlay"></div>
         
         <div className="relative z-10 p-8 md:p-12">
-          <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-emerald-300 mb-4">
-            Donghua Completed
+          <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-indigo-300 mb-4">
+            Anime Ongoing
           </h1>
           <p className="text-gray-200 text-lg max-w-3xl mb-6">
-            Koleksi donghua (animasi Tiongkok) yang sudah tamat dengan subtitle Indonesia. 
-            Nikmati donghua favorit Anda dari awal hingga akhir tanpa perlu menunggu.
+            Koleksi anime Jepang yang sedang tayang dengan subtitle Indonesia. 
+            Ikuti episode terbaru dari anime favorit Anda.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/donghua" className="bg-green-900/50 text-green-100 px-4 py-1.5 rounded-full hover:bg-green-800/70 transition-colors text-sm">
-              Semua Donghua
+            <Link href="/anime" className="bg-blue-900/50 text-blue-100 px-4 py-1.5 rounded-full hover:bg-blue-800/70 transition-colors text-sm">
+              Semua Anime
             </Link>
-            <Link href="/donghua/ongoing" className="bg-green-900/50 text-green-100 px-4 py-1.5 rounded-full hover:bg-green-800/70 transition-colors text-sm">
-              Ongoing
+            <Link href="/anime/completed" className="bg-blue-900/50 text-blue-100 px-4 py-1.5 rounded-full hover:bg-blue-800/70 transition-colors text-sm">
+              Completed
             </Link>
-            <Link href="/donghua/genres" className="bg-green-900/50 text-green-100 px-4 py-1.5 rounded-full hover:bg-green-800/70 transition-colors text-sm">
+            <Link href="/anime/genres" className="bg-blue-900/50 text-blue-100 px-4 py-1.5 rounded-full hover:bg-blue-800/70 transition-colors text-sm">
             Daftar Genre
           </Link>
-          <Link href="/donghua/seasons" className="bg-green-900/50 text-green-100 px-4 py-1.5 rounded-full hover:bg-green-800/70 transition-colors text-sm">
-            Daftar Seasons
+          <Link href="/anime/animelist" className="bg-blue-900/50 text-blue-100 px-4 py-1.5 rounded-full hover:bg-blue-800/70 transition-colors text-sm">
+            Daftar Anime
           </Link>
           </div>
         </div>
       </div>
 
-      {/* Completed Donghua Grid */}
+      {/* Ongoing Anime Grid */}
       <section className="mb-16">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white">
-            {currentPage > 1 ? `Donghua Completed - Halaman ${currentPage}` : "Donghua Completed"}
+            {currentPage > 1 ? `Anime Ongoing - Halaman ${currentPage}` : "Anime Ongoing"}
           </h2>
           <div className="text-sm text-gray-400">
-            {donghuaData?.data?.completed_donghua?.length || 0} Series
+            {animeData?.data?.animes?.length || 0} Series
           </div>
         </div>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
-          {donghuaData?.data?.completed_donghua?.map((item, index) => (
-            <Link key={index} href={getCorrectUrl(item)} className="group">
-              <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-green-900/30 hover:shadow-xl transition-all duration-300">
+          {animeData?.data?.animes?.map((anime, index) => (
+            <Link key={index} href={`/anime/${anime.slug}`} className="group">
+              <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-blue-900/30 hover:shadow-xl transition-all duration-300">
                 <Image 
-                  src={item.poster} 
-                  alt={item.title}
+                  src={anime.poster} 
+                  alt={anime.title}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
                   className="object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
@@ -172,21 +156,32 @@ export default function CompletedDonghuaPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
-                <div className="absolute top-2 right-2 bg-green-600 text-xs font-medium py-1 px-2 rounded-full backdrop-blur-sm shadow-sm">
-                  {item.status}
+                <div className="absolute top-2 right-2 bg-blue-600 text-xs font-medium py-1 px-2 rounded-full backdrop-blur-sm shadow-sm">
+                  {anime.type}
                 </div>
                 
-                <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-xs font-medium py-1 px-2 rounded-full text-gray-300 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  Sudah Tamat
-                </div>
+                {anime.score && (
+                  <div className="absolute top-2 left-2 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-xs py-1 px-2 rounded-full text-yellow-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    {anime.score}
+                  </div>
+                )}
                 
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/95 via-black/80 to-transparent transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="line-clamp-2 text-sm font-semibold text-white mb-1 group-hover:text-green-300 transition-colors">
-                    {item.title}
+                  <h3 className="line-clamp-2 text-sm font-semibold text-white mb-1 group-hover:text-blue-300 transition-colors">
+                    {anime.title}
                   </h3>
-                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                    <span className="text-xs text-gray-400">Series Complete</span>
-                    <span className="bg-green-900/60 text-green-300 text-xs px-1.5 py-0.5 rounded">Tamat</span>
+                  <div className="flex flex-wrap items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                    <span className="text-xs text-gray-400">
+                      {anime.views.toLocaleString()} views
+                    </span>
+                    {anime.genres && anime.genres.slice(0, 2).map((genre, idx) => (
+                      <span key={idx} className="bg-blue-900/60 text-blue-300 text-xs px-1.5 py-0.5 rounded">
+                        {genre.name}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -196,7 +191,7 @@ export default function CompletedDonghuaPage() {
       </section>
 
       {/* Pagination */}
-      {donghuaData?.pagination && (
+      {animeData?.data?.pagination && (
         <div className="mt-8 flex justify-center">
           <div className="flex flex-wrap items-center justify-center gap-2">
             {/* Tombol Previous */}
@@ -205,7 +200,7 @@ export default function CompletedDonghuaPage() {
               disabled={currentPage <= 1}
               className={`px-4 py-2 rounded ${currentPage <= 1 
                 ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
-                : 'bg-green-600 hover:bg-green-700 text-white'
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
               } transition-colors`}
             >
               Sebelumnya
@@ -217,7 +212,7 @@ export default function CompletedDonghuaPage() {
               <button
                 onClick={() => goToPage(1)}
                 className={`w-10 h-10 rounded ${currentPage === 1 
-                  ? 'bg-green-600 text-white' 
+                  ? 'bg-blue-600 text-white' 
                   : 'bg-gray-700 hover:bg-gray-600 text-gray-200'
                 } transition-colors`}
               >
@@ -243,29 +238,31 @@ export default function CompletedDonghuaPage() {
               {currentPage > 1 && (
                 <button
                   onClick={() => goToPage(currentPage)}
-                  className="w-10 h-10 rounded bg-green-600 text-white transition-colors"
+                  className="w-10 h-10 rounded bg-blue-600 text-white transition-colors"
                 >
                   {currentPage}
                 </button>
               )}
               
               {/* Page after current */}
-            {donghuaData?.pagination?.next_page && (
+              {animeData?.data?.pagination?.has_next_page && (
                 <button
-                  onClick={() => goToPage(Number(donghuaData.pagination.next_page))}
+                  onClick={() => goToPage(currentPage + 1)}
                   className="w-10 h-10 rounded bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors"
                 >
-                  {donghuaData.pagination.next_page}
+                  {currentPage + 1}
                 </button>
               )}
               
+              {/* Ellipsis if needed - not shown as we don't know total pages */}
+              
               {/* Tombol Next */}
               <button 
-                onClick={() => donghuaData?.pagination?.next_page && goToPage(Number(donghuaData.pagination.next_page))}
-                disabled={!donghuaData?.pagination?.next_page}
-                className={`px-4 py-2 rounded ml-1 ${!donghuaData?.pagination?.next_page
+                onClick={() => animeData?.data?.pagination?.has_next_page && goToPage(currentPage + 1)}
+                disabled={!animeData?.data?.pagination?.has_next_page}
+                className={`px-4 py-2 rounded ml-1 ${!animeData?.data?.pagination?.has_next_page
                   ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
-                  : 'bg-green-600 hover:bg-green-700 text-white'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
                 } transition-colors`}
               >
                 Selanjutnya
@@ -285,7 +282,7 @@ function LoadingState() {
       {/* Header Section Skeleton */}
       <div className="relative mb-12 overflow-hidden rounded-2xl bg-slate-800 animate-pulse h-48"></div>
       
-      {/* Completed Donghua Grid Skeleton */}
+      {/* Ongoing Anime Grid Skeleton */}
       <div className="mb-16">
         <div className="h-8 bg-slate-800 w-60 rounded mb-6 animate-pulse"></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">

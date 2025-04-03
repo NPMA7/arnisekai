@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getAnimeUrl } from "../lib/apiConfig";
 
 // Hari dalam bahasa Indonesia dengan key sesuai API
 const daysOfWeek = [
@@ -39,11 +40,7 @@ const ScheduleDisplay = () => {
       
       try {
         // Menggunakan endpoint jadwal anime yang sebenarnya
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch('https://anyapi-beta.vercel.app/v1/anime/samehadaku/schedule', {
-          headers: {
-            'X-API-Key': apiKey
-          },
+        const response = await fetch(getAnimeUrl('schedule'), {
           cache: 'no-store'
         });
         

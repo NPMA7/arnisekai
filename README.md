@@ -16,7 +16,7 @@ Arnisekai adalah platform streaming anime dan donghua yang menyediakan akses gra
 
 - **Next.js 14** - Framework React untuk produksi
 - **Tailwind CSS** - Framework CSS untuk styling
-- **API Integration** - Integrasi dengan berbagai sumber konten
+- **API Integration** - Integrasi dengan berbagai sumber konten melalui API routes
 - **Server-Side Rendering** - Performa dan SEO yang optimal
 - **Progressive Web App** - Pengalaman aplikasi native
 
@@ -38,15 +38,17 @@ Arnisekai adalah platform streaming anime dan donghua yang menyediakan akses gra
 3. **Konfigurasi environment**
    - Buat file `.env.local`
    - Tambahkan konfigurasi yang diperlukan:
-     ```env
-     NEXT_PUBLIC_API_KEY=your_api_key
-     ```
+   ```env
+   ANIME_BASE_URL=https://anyapi-beta.vercel.app/v1/anime/?
+   DONGHUA_BASE_URL=https://anyapi-beta.vercel.app/v1/donghua/?
+   API_KEY=your_api_key
+   ```
 
 4. **Jalankan development server**
-```bash
-npm run dev
+   ```bash
+   npm run dev
    # atau
-yarn dev
+   yarn dev
    ```
 
 5. **Buka browser**
@@ -59,10 +61,29 @@ arnisekai/
 ├── src/
 │   ├── app/                 # Routing dan halaman
 │   ├── components/          # Komponen yang dapat digunakan kembali
-│   ├── styles/             # File CSS global dan modul
-│   └── utils/              # Fungsi utilitas
-├── public/                 # Aset statis
-└── package.json           # Dependensi dan skrip
+│   ├── lib/                 # Konfigurasi dan fungsi utilitas
+│   │   └── apiConfig.js     # Fungsi utilitas untuk URL API
+│   ├── pages/               # API routes dan server-side functions
+│   │   └── api/             # API routes yang bertindak sebagai proxy
+│   └── styles/              # File CSS global dan modul
+├── public/                  # Aset statis
+└── package.json             # Dependensi dan skrip
+```
+
+## 🔒 Arsitektur Keamanan
+
+Aplikasi ini menggunakan API routes untuk mengamankan kunci API dan URL endpoint eksternal:
+
+- ✅ Kunci API disimpan secara eksklusif di server dan tidak terekspos ke sisi klien
+- ✅ Semua permintaan ke API eksternal dirutekan melalui proxy server Next.js
+- ✅ Validasi permintaan dilakukan di server sebelum diteruskan ke API eksternal
+- ✅ Fallback URL disediakan untuk kasus ketika variabel lingkungan tidak tersedia
+- ✅ Penggunaan fungsi utilitas untuk konsistensi pemanggilan API (`getAnimeUrl` dan `getDonghuaUrl`)
+
+API route bertindak sebagai perantara keamanan:
+```
+Browser/Client → Next.js API Routes → External API
+                 (adds API key)
 ```
 
 ## 🌈 Fitur yang Akan Datang
@@ -73,24 +94,9 @@ arnisekai/
 - [ ] Dukungan untuk lebih banyak sumber konten
 - [ ] Fitur unduhan untuk menonton offline
 
-## 🤝 Kontribusi
-
-Kami sangat menghargai kontribusi dari komunitas! Jika Anda ingin berkontribusi:
-
-1. Fork repositori
-2. Buat branch fitur (`git checkout -b fitur-baru`)
-3. Commit perubahan (`git commit -am 'Menambahkan fitur baru'`)
-4. Push ke branch (`git push origin fitur-baru`)
-5. Buat Pull Request
-
 ## 📝 Lisensi
 
 Proyek ini dilisensikan di bawah [MIT License](LICENSE).
-
-## 🙏 Kredit
-
-- Terima kasih kepada semua kontributor yang telah membantu proyek ini
-- Kredit khusus untuk penyedia API dan sumber konten
 
 ## 📞 Kontak
 

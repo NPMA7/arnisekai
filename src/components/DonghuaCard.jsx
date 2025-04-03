@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getDonghuaUrl } from "@/lib/apiConfig";
 
 /**
  * Komponen untuk menampilkan kartu donghua
@@ -17,10 +18,49 @@ export default function DonghuaCard({ item, type = "latest", loading = false }) 
 
   if (!item) return null;
 
-  // Menangani URL yang berbeda berdasarkan tipe
-  const url = type === "latest" 
-    ? item.url.replace("https://anyapi-beta.vercel.app/v1/donghua/anichin/episode/", "/donghua/watch/")
-    : item.url.replace("https://anyapi-beta.vercel.app/v1/donghua/anichin/detail/", "/donghua/");
+  // Fungsi untuk mendapatkan URL lokal dari URL API
+  const getLocalUrl = () => {
+    if (!item.url) {
+      // Jika tidak ada URL, gunakan slug jika tersedia
+      return item.slug ? `/donghua/${item.slug}` : '/donghua';
+    }
+    
+    // Handle URL untuk episode
+    if (type === "latest" && item.url.includes('/episode/')) {
+      // Ekstrak slug episode
+      let slug = '';
+      if (item.url.includes('anichin/episode/')) {
+        slug = item.url.split('anichin/episode/').pop();
+      } else if (item.url.includes('/episode/')) {
+        slug = item.url.split('/episode/').pop();
+      }
+      
+      return slug ? `/donghua/watch/${slug}` : '/donghua';
+    } 
+    
+    // Handle URL untuk detail donghua
+    if (item.url.includes('/detail/')) {
+      // Ekstrak slug donghua
+      let slug = '';
+      if (item.url.includes('anichin/detail/')) {
+        slug = item.url.split('anichin/detail/').pop();
+      } else if (item.url.includes('/detail/')) {
+        slug = item.url.split('/detail/').pop();
+      }
+      
+      return slug ? `/donghua/${slug}` : '/donghua';
+    }
+    
+    // Jika ada slug dalam item tapi format URL tidak dikenali
+    if (item.slug) {
+      return `/donghua/${item.slug}`;
+    }
+    
+    // Fallback, gunakan URL asli
+    return item.url;
+  };
+
+  const url = getLocalUrl();
 
   // Menangani judul untuk tipe latest
   const title = type === "latest" 

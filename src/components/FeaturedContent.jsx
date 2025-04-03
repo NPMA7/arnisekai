@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getDonghuaUrl, getAnimeUrl } from "../lib/apiConfig";
 
 const FeaturedContent = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -16,21 +17,14 @@ const FeaturedContent = () => {
       setError(null);
       try {
         // Mengambil data dari dua API: Donghua dan Anime
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
         
         // Fetch donghua data
-        const donghuaResponse = await fetch('https://anyapi-beta.vercel.app/v1/donghua/anichin/ongoing', {
-          headers: {
-            'X-API-Key': apiKey
-          },
+        const donghuaResponse = await fetch(getDonghuaUrl('ongoing'), {
           cache: 'no-store'
         });
         
         // Fetch anime data
-        const animeResponse = await fetch('https://anyapi-beta.vercel.app/v1/anime/samehadaku/ongoing', {
-          headers: {
-            'X-API-Key': apiKey
-          },
+        const animeResponse = await fetch(getAnimeUrl('ongoing'), {
           cache: 'no-store'
         });
         

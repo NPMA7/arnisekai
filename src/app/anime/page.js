@@ -1,37 +1,36 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DonghuaHeader from "@/components/DonghuaHeader";
-import DonghuaSection from "@/components/DonghuaSection";
+import AnimeHeader from "@/components/AnimeHeader";
+import AnimeSection from "@/components/AnimeSection";
 import LoadingState from "@/components/LoadingState";
 import ErrorState from "@/components/ErrorState";
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
-import { getDonghuaUrl } from "@/lib/apiConfig";
+import { getAnimeUrl } from "@/lib/apiConfig";
 
-export default function DonghuaPage() {
-  const [donghuaData, setDonghuaData] = useState(null);
+export default function AnimePage() {
+  const [animeData, setAnimeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(getDonghuaUrl(`home?page=${currentPage}`), {
+        const response = await fetch(getAnimeUrl("home"), {
           cache: "no-store",
         });
         
         if (!response.ok) {
-          throw new Error("Gagal mengambil data donghua");
+          throw new Error("Gagal mengambil data anime");
         }
         
         const data = await response.json();
-        setDonghuaData(data);
+        setAnimeData(data);
         setError(null);
       } catch (err) {
-        console.error("Error fetching donghua data:", err);
+        console.error("Error fetching anime data:", err);
         setError("Terjadi kesalahan saat mengambil data. Silakan coba lagi nanti.");
       } finally {
         setLoading(false);
@@ -39,14 +38,14 @@ export default function DonghuaPage() {
     };
 
     fetchData();
-  }, [currentPage]);
+  }, []);
 
   const handleRetry = () => {
     window.location.reload();
   };
 
   if (loading) {
-    return <LoadingState type="donghua" />;
+    return <LoadingState type="anime" />;
   }
 
   if (error) {
@@ -62,7 +61,7 @@ export default function DonghuaPage() {
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
               <span className="mx-2 text-gray-600">/</span>
-              <span className="text-white font-medium">Donghua</span>
+              <span className="text-white font-medium">Anime</span>
             </div>
             
             <SearchBar className="w-full sm:w-64 md:w-72" />
@@ -72,22 +71,22 @@ export default function DonghuaPage() {
 
       <div className="container mx-auto px-4 py-8">
         {/* Header Section */}
-        <DonghuaHeader />
+        <AnimeHeader />
 
-      {/* Latest Releases Section */}
-        <DonghuaSection 
-          title="Episode Terbaru"
-          linkUrl="/donghua/ongoing"
-          items={donghuaData?.data?.latest_release || []}
-          type="latest"
+        {/* Ongoing Anime Section */}
+        <AnimeSection 
+          title="Anime Ongoing"
+          linkUrl="/anime/ongoing"
+          items={animeData?.data?.onging_anime || []}
+          type="ongoing"
           loading={loading}
         />
 
-      {/* Completed Donghua Section */}
-        <DonghuaSection 
-          title="Donghua Completed"
-          linkUrl="/donghua/completed"
-          items={donghuaData?.data?.completed_donghua || []}
+        {/* Completed Anime Section */}
+        <AnimeSection 
+          title="Anime Completed"
+          linkUrl="/anime/completed"
+          items={animeData?.data?.completed_anime || []}
           type="completed"
           loading={loading}
         />

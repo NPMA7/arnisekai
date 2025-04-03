@@ -1,26 +1,29 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getAnimeUrl, getDonghuaUrl } from '@/lib/apiConfig';
 
 /**
- * Komponen SearchBar yang dapat digunakan di semua halaman donghua
+ * Komponen SearchBar yang dapat digunakan di semua halaman
  * @param {Object} props
  * @param {string} props.placeholder - Placeholder untuk input pencarian
  * @param {string} props.className - Class tambahan untuk container
- * @param {string} props.inputClassName - Class tambahan untuk input
- * @param {string} props.buttonClassName - Class tambahan untuk tombol
  */
-export default function SearchBar({ placeholder = "Cari donghua...", className = "" }) {
+export default function SearchBar({ placeholder = "Cari...", className = "" }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const searchTimeoutRef = useRef(null);
   const searchRef = useRef(null);
+
+  // Menentukan apakah kita berada di halaman anime atau donghua
+  const isAnimeContext = pathname?.includes('/anime');
 
   // Menangani klik di luar komponen untuk menutup dropdown
   useEffect(() => {
@@ -39,8 +42,12 @@ export default function SearchBar({ placeholder = "Cari donghua...", className =
   // Fungsi untuk melakukan pencarian
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      // Navigasi ke halaman pencarian
+      // Navigasi ke halaman pencarian sesuai dengan konteks
+      if (isAnimeContext) {
+        router.push(`/anime/search/${encodeURIComponent(searchQuery.trim())}`);
+      } else {
       router.push(`/donghua/search/${encodeURIComponent(searchQuery.trim())}`);
+      }
       setShowResults(false);
     }
   };
@@ -77,13 +84,18 @@ export default function SearchBar({ placeholder = "Cari donghua...", className =
 
     try {
       setIsSearching(true);
-      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
       
-      // URL endpoint pencarian donghua
-      const searchUrl = `https://anyapi-beta.vercel.app/v1/donghua/anichin/search/${encodeURIComponent(keyword)}`;
+      // URL endpoint pencarian berdasarkan konteks
+      let searchUrl;
+      if (isAnimeContext) {
+        // URL untuk pencarian anime
+        searchUrl = getAnimeUrl(`search/${encodeURIComponent(keyword)}`);
+      } else {
+        // URL untuk pencarian donghua
+        searchUrl = getDonghuaUrl(`search/${encodeURIComponent(keyword)}`);
+      }
       
       const response = await fetch(searchUrl, {
-        headers: { "X-API-Key": apiKey },
         cache: "no-store"
       });
       
@@ -93,10 +105,15 @@ export default function SearchBar({ placeholder = "Cari donghua...", className =
       
       const data = await response.json();
       
-      if (data && data.data && data.data.donghua) {
+      if (data && data.data) {
         // Batasi hasil menjadi maksimal 5 item
-        const limitedResults = data.data.donghua.slice(0, 5);
-        setSearchResults(limitedResults);
+        let results = [];
+        if (isAnimeContext && data.data.animes) {
+          results = data.data.animes.slice(0, 5);
+        } else if (!isAnimeContext && data.data.donghua) {
+          results = data.data.donghua.slice(0, 5);
+        }
+        setSearchResults(results);
       } else {
         setSearchResults([]);
       }
@@ -117,7 +134,7 @@ export default function SearchBar({ placeholder = "Cari donghua...", className =
       </div>
       <input 
         type="text"
-        placeholder={placeholder}
+        placeholder={placeholder || (isAnimeContext ? "Cari anime..." : "Cari donghua...")}
         value={searchQuery}
         onChange={handleSearchInput}
         className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg block w-full pl-10 p-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
@@ -145,10 +162,35 @@ export default function SearchBar({ placeholder = "Cari donghua...", className =
             </div>
           ) : searchResults.length > 0 ? (
             <div className="py-2 max-h-[400px] overflow-y-auto custom-scrollbar">
-              {searchResults.map((result, index) => (
+              {searchResults.map((result, index) => {
+                // Menentukan URL berdasarkan konteks
+                const itemUrl = isAnimeContext 
+                  ? `/anime/${result.slug}`
+                  : `/donghua/${result.slug}`;
+                
+                // Menentukan warna aksen berdasarkan konteks
+                const accentColor = isAnimeContext 
+                  ? 'bg-red-600/80 text-red-100' 
+                  : 'bg-blue-600/80 text-blue-100';
+                
+                // Menentukan warna untuk status
+                let statusColor = '';
+                if (result.status) {
+                  if (result.status.toLowerCase().includes('completed')) {
+                    statusColor = 'bg-green-600/80 text-green-100';
+                  } else if (result.status.toLowerCase().includes('hiatus')) {
+                    statusColor = 'bg-yellow-600/80 text-yellow-100';
+                  } else {
+                    statusColor = isAnimeContext
+                      ? 'bg-red-600/80 text-red-100'
+                      : 'bg-blue-600/80 text-blue-100';
+                  }
+                }
+                
+                return (
                 <Link
                   key={index}
-                  href={`/donghua/${result.slug}`}
+                    href={itemUrl}
                   className="flex items-center px-4 py-3 hover:bg-gray-700/80 transition-colors"
                   onClick={() => setShowResults(false)}
                 >
@@ -163,24 +205,27 @@ export default function SearchBar({ placeholder = "Cari donghua...", className =
                   <div className="ml-3 flex-1">
                     <div className="text-white text-sm font-medium line-clamp-1">{result.title}</div>
                     <div className="flex items-center mt-1">
-                      <span className={`text-xs px-1.5 py-0.5 rounded ${
-                        result.status?.toLowerCase().includes('completed') 
-                          ? 'bg-green-600/80 text-green-100' 
-                          : result.status?.toLowerCase().includes('hiatus')
-                            ? 'bg-yellow-600/80 text-yellow-100'
-                            : 'bg-blue-600/80 text-blue-100'
-                      }`}>
-                        {result.status || 'Ongoing'}
+                        <span className={`text-xs px-1.5 py-0.5 rounded ${statusColor}`}>
+                          {result.status || (isAnimeContext ? 'Anime' : 'Donghua')}
+                        </span>
+                        <span className="text-gray-400 text-xs ml-2">{result.type || (isAnimeContext ? 'TV' : 'Series')}</span>
+                        {result.score && (
+                          <span className="text-yellow-400 text-xs ml-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 mr-0.5">
+                              <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
+                            </svg>
+                            {result.score}
                       </span>
-                      <span className="text-gray-400 text-xs ml-2">{result.type || 'Donghua'}</span>
+                        )}
                     </div>
                   </div>
                 </Link>
-              ))}
+                );
+              })}
               <div className="px-4 py-2 border-t border-gray-700">
                 <button
                   onClick={handleSearch}
-                  className="text-blue-400 text-sm hover:text-blue-300 transition-colors flex items-center w-full justify-center"
+                  className={`text-sm hover:text-blue-300 transition-colors flex items-center w-full justify-center ${isAnimeContext ? 'text-red-400 hover:text-red-300' : 'text-blue-400 hover:text-blue-300'}`}
                 >
                   <span>Lihat semua hasil</span>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

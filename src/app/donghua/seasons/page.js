@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import "./seasons.css";
 import SearchBar from "@/components/SearchBar";
+import { getDonghuaUrl } from "@/lib/apiConfig";
+
 export default function DonghuaSeasonsPage() {
   const [seasonsData, setSeasonsData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,11 +17,7 @@ export default function DonghuaSeasonsPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch(`https://anyapi-beta.vercel.app/v1/donghua/anichin/seasons`, {
-          headers: {
-            "X-API-Key": apiKey,
-          },
+        const response = await fetch(getDonghuaUrl('seasons'), {
           cache: "no-store",
         });
         

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
+import { getDonghuaUrl } from "@/lib/apiConfig";
 
 export default function WatchDonghuaPage() {
   const params = useParams();
@@ -23,16 +24,9 @@ export default function WatchDonghuaPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch(
-          `https://anyapi-beta.vercel.app/v1/donghua/anichin/episode/${slug}`,
-          {
-            headers: {
-              "X-API-Key": apiKey,
-            },
-            cache: "no-store",
-          }
-        );
+        const response = await fetch(getDonghuaUrl(`episode/${slug}`), {
+          cache: "no-store",
+        });
 
         if (!response.ok) {
           throw new Error("Gagal mengambil data episode");

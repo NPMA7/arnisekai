@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
+import { getDonghuaUrl } from "@/lib/apiConfig";
 
 export default function DonghuaDetailPage() {
   const params = useParams();
@@ -103,11 +104,7 @@ export default function DonghuaDetailPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch(`https://anyapi-beta.vercel.app/v1/donghua/anichin/detail/${slug}`, {
-          headers: {
-            "X-API-Key": apiKey,
-          },
+        const response = await fetch(getDonghuaUrl(`detail/${slug}`), {
           cache: "no-store",
         });
         

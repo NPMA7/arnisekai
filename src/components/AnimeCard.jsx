@@ -3,124 +3,76 @@ import Image from "next/image";
 import Link from "next/link";
 
 /**
- * Komponen untuk menampilkan kartu anime atau donghua
+ * Komponen untuk menampilkan kartu anime
  * @param {Object} props
- * @param {Object} props.item - Data anime/donghua yang akan ditampilkan
- * @param {string} props.className - Class tambahan jika diperlukan
- * @param {boolean} props.showGenres - Flag untuk menampilkan genre (default: true)
- * @param {string} props.aspectRatio - Rasio aspek gambar (default: "2/3")
- * @param {function} props.onClick - Handler untuk klik pada kartu (opsional)
+ * @param {Object} props.item - Data anime yang akan ditampilkan
+ * @param {string} props.type - Tipe anime (ongoing, completed)
+ * @param {boolean} props.loading - Status loading
  */
-export default function AnimeCard({ 
-  item, 
-  className = "", 
-  showGenres = true,
-  aspectRatio = "2/3",
-  onClick
-}) {
-  // Menformat jumlah views
-  const formatViews = (views) => {
-    if (!views) return "0";
-    if (views >= 1000000) {
-      return (views / 1000000).toFixed(1) + "M";
-    } else if (views >= 1000) {
-      return (views / 1000).toFixed(1) + "K";
-    }
-    return views.toString();
-  };
+export default function AnimeCard({ item, type = "ongoing", loading = false }) {
+  if (loading) {
+    return (
+      <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 animate-pulse shadow-lg"></div>
+    );
+  }
 
-  // Jika tidak ada item, jangan render apa-apa
   if (!item) return null;
 
-  // Konten kartu
-  const cardContent = (
-    <>
-      <div className={`relative aspect-[${aspectRatio}] overflow-hidden`}>
-        <Image
-          src={item.poster}
-          alt={item.title}
+  // Menangani URL untuk detail anime
+  const url = item.detail_url 
+    ? `/anime/${item.slug}` 
+    : `/anime/${item.slug}`;
+
+  // Menangani judul untuk tipe ongoing vs completed
+  const title = item.title || "";
+
+  return (
+    <Link href={url} className="group">
+      <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-red-900/30 hover:shadow-xl transition-all duration-300">
+        <Image 
+          src={item.poster} 
+          alt={title}
           fill
-          sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, (max-width: 1024px) 20vw, 16vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
+          className="object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
           loading="lazy"
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEIQJPfrpQJwAAAABJRU5ErkJggg=="
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         
-        {/* Content type badge */}
-        <div className={`absolute top-1 left-1 ${
-          item.contentType === "anime" ? "bg-red-600/90" : "bg-blue-600/90"
-        } text-white text-[9px] font-medium px-1.5 py-0.5 rounded-sm backdrop-blur-sm`}>
-          {item.contentType === "anime" ? "Anime" : "Donghua"}
-        </div>
-        
-        {/* Status badge if available */}
-        {item.status && (
-          <div className="absolute top-1 right-1 bg-gray-900/80 text-white text-[9px] font-medium px-1.5 py-0.5 rounded-sm backdrop-blur-sm">
-            {item.status}
+        {type === "ongoing" ? (
+          <div className="absolute top-2 right-2 bg-red-600 text-xs font-medium py-1 px-2 rounded-full backdrop-blur-sm shadow-sm">
+            {item.episode ? `EP ${item.episode}` : "NEW"}
+          </div>
+        ) : (
+          <div className="absolute top-2 right-2 bg-green-600 text-xs font-medium py-1 px-2 rounded-full backdrop-blur-sm shadow-sm">
+            {item.type || "TV"}
           </div>
         )}
         
-        {/* Info overlay */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-2 transform translate-y-0 transition-transform duration-300 backdrop-blur-sm">
-          <div className="flex items-center mb-0.5 justify-between">
-            <div className="flex items-center">
-              {item.score && (
-                <div className="flex items-center text-yellow-400 text-[10px] mr-1.5 font-medium">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-0.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                  </svg>
-                  {item.score}
-                </div>
-              )}
-              
-              {item.type && (
-                <div className="text-gray-200 text-[10px] font-medium">
-                  {item.type}
-                </div>
-              )}
-            </div>
-            
-            {item.views && (
-              <div className="text-gray-200 text-[9px] flex items-center ml-auto font-medium">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-2.5 w-2.5 text-gray-300 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                {formatViews(item.views)}
-              </div>
-            )}
+        {item.score && (
+          <div className="absolute top-2 left-2 bg-yellow-600/80 backdrop-blur-sm text-xs font-medium py-1 px-2 rounded-full text-white">
+            ★ {item.score}
           </div>
-          
-          <h3 className="text-white text-xs font-medium line-clamp-1 group-hover:text-blue-400 transition-colors drop-shadow-sm">
-            {item.title}
+        )}
+        
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/95 via-black/80 to-transparent transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+          <h3 className={`line-clamp-2 text-sm font-semibold text-white mb-1 group-hover:${type === "ongoing" ? "text-red-300" : "text-green-300"} transition-colors`}>
+            {title}
           </h3>
+          {type === "ongoing" ? (
+            <p className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+              {item.released_time ? `${item.released_time}` : "Episode terbaru"}
+            </p>
+          ) : (
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+              {item.genres && item.genres.length > 0 && (
+                <span className="text-xs text-gray-400">{item.genres[0].name}</span>
+              )}
+              <span className="bg-green-900/60 text-green-300 text-xs px-1.5 py-0.5 rounded">Completed</span>
+            </div>
+          )}
         </div>
       </div>
-      
-      
-    </>
-  );
-
-  // Kelas utama untuk kartu
-  const cardClasses = `bg-gray-800/40 backdrop-blur-sm rounded-md overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-blue-500/10 group ${className}`;
-
-  // Jika onClick diberikan, gunakan div dengan onClick, jika tidak, gunakan Link
-  return onClick ? (
-    <div 
-      className={cardClasses} 
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-    >
-      {cardContent}
-    </div>
-  ) : (
-    <Link 
-      href={item.url} 
-      className={cardClasses}
-    >
-      {cardContent}
     </Link>
   );
 } 
