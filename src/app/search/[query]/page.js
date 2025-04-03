@@ -1,17 +1,20 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import AnimeCard from "@/components/AnimeCard";
 import { getAnimeUrl, getDonghuaUrl } from "@/lib/apiConfig";
 
-// Komponen utama yang menggunakan useSearchParams
+// Komponen utama yang menggunakan useParams dan useSearchParams
 function SearchContent() {
   const searchParams = useSearchParams();
+  const params = useParams();
   const router = useRouter();
-  const query = searchParams.get("q") || "";
+  
+  // Ambil query dari parameter URL path, bukan dari query string
+  const query = params.query || "";
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
   
   const [searchResults, setSearchResults] = useState([]);
@@ -40,6 +43,8 @@ function SearchContent() {
         // Membuat URL pencarian untuk donghua dan anime dengan pagination
         const donghuaSearchUrl = getDonghuaUrl(`search/${encodeURIComponent(query)}${currentPage > 1 ? `/${currentPage}` : ''}`);
         const animeSearchUrl = getAnimeUrl(`search/${encodeURIComponent(query)}${currentPage > 1 ? `/${currentPage}` : ''}`);
+        
+        console.log('Fetching from:', { donghuaSearchUrl, animeSearchUrl });
         
         // Melakukan kedua pencarian secara paralel
         const [donghuaRes, animeRes] = await Promise.all([
@@ -74,11 +79,13 @@ function SearchContent() {
             const formattedDonghuaResults = donghuaItems.map(item => ({
               ...item,
               contentType: 'donghua',
-              url: item.url || `/donghua/${item.slug ? item.slug.replace('/', '') : ''}`,
+              url: `/donghua/${item.slug ? item.slug.replace('/', '') : ''}`,
             }));
             
             combinedResults = [...combinedResults, ...formattedDonghuaResults];
           }
+        } else {
+          console.error('Donghua search failed:', donghuaRes.status, await donghuaRes.text());
         }
         
         // Proses hasil pencarian anime jika berhasil
@@ -105,7 +112,7 @@ function SearchContent() {
               score: item.score,
               type: item.type || 'TV',
               contentType: 'anime',
-              url: item.detail_url || `/anime/${item.slug}`,
+              url: `/anime/${item.slug}`,
               genres: item.genres,
               status: item.status,
               views: item.views,
@@ -114,6 +121,8 @@ function SearchContent() {
             
             combinedResults = [...combinedResults, ...formattedAnimeResults];
           }
+        } else {
+          console.error('Anime search failed:', animeRes.status, await animeRes.text());
         }
         
         // Set total pages dari hasil API
@@ -153,7 +162,7 @@ function SearchContent() {
 
   // Handler untuk navigasi pagination
   const handlePageChange = (newPage) => {
-    router.push(`/search?q=${encodeURIComponent(query)}&page=${newPage}`);
+    router.push(`/search/${encodeURIComponent(query)}?page=${newPage}`);
   };
   
   // Tentukan max pages berdasarkan tab yang aktif
@@ -283,7 +292,7 @@ function SearchContent() {
             Hasil Pencarian untuk <span className="text-blue-500">"{query}"</span>
           </h1>
           <p className="text-gray-400">
-            {filteredResults.length} hasil ditemukan {currentPage > 1 ? `(Halaman ${currentPage})` : ""}
+            {filteredResults.length * Math.max(totalPages.anime, totalPages.donghua)} hasil ditemukan {currentPage > 1 ? `(Halaman ${currentPage})` : ""}
           </p>
         </div>
         
@@ -358,7 +367,7 @@ function SearchContent() {
         
         {/* Search results */}
         {!isLoading && !error && filteredResults.length > 0 && (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
             {filteredResults.map((item, index) => (
               <AnimeCard 
                 key={`${item.contentType}-${item.slug}-${index}`}

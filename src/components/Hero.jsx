@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
@@ -235,7 +236,7 @@ const Hero = () => {
     e.preventDefault();
     if (searchTerm.trim() !== "") {
       // Gunakan path yang lebih konsisten untuk pencarian
-      window.location.href = `/donghua/search/${encodeURIComponent(searchTerm)}`;
+      window.location.href = `/search/${encodeURIComponent(searchTerm)}`;
     }
   };
 
