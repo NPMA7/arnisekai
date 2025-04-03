@@ -336,7 +336,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="h-screen text-center relative z-10 w-full max-w-2xl md:-left-42 md:py-36 py-16">
+      <div className="h-screen text-center relative z-10 w-full max-w-2xl lg:-left-36 py-36 ">
         <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl mb-6 flex items-center justify-center">
           <div className="mr-4 relative flex items-center">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">

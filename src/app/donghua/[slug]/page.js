@@ -195,7 +195,7 @@ export default function DonghuaDetailPage() {
       </div>
 
       {/* Hero Banner */}
-      <div className="relative w-full h-[500px] overflow-hidden ">
+      <div className="relative w-full">
         {/* Background Image (blurred) */}
         <div className="absolute inset-0">
           <Image 
@@ -209,8 +209,8 @@ export default function DonghuaDetailPage() {
         </div>
         
         {/* Content Container */}
-        <div className="container mx-auto px-4 relative z-10 h-full  flex items-end py-8">
-          <div className="flex flex-row items-start gap-8">
+        <div className="container mx-auto px-4 relative z-10 flex items-end pb-16 ">
+          <div className="flex flex-col min-[375px]:flex-row items-start gap-8 w-full">
             {/* Poster */}
             <div className="w-48 md:w-64 flex-shrink-0 rounded-lg overflow-hidden shadow-xl shadow-black/30 border-2 border-gray-800">
               <div className="aspect-[2/3] relative">
@@ -513,7 +513,6 @@ export default function DonghuaDetailPage() {
                       Total {donghua.episodes_list.length} episode
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="text-gray-400">Urut:</span>
                       <select 
                         className="bg-gray-700 text-white text-sm rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-blue-500"
                         value={sortOrder}
@@ -671,10 +670,10 @@ function LoadingState() {
       </div>
 
       {/* Hero Banner Skeleton */}
-      <div className="relative w-full h-[500px] overflow-hidden">
+      <div className="relative w-full">
         <div className="absolute inset-0 bg-slate-800 animate-pulse"></div>
-        <div className="container mx-auto px-4 relative z-10 h-full flex items-end pb-12">
-          <div className="flex flex-row items-start gap-8 w-full">
+        <div className="container mx-auto px-4 relative z-10 flex items-end pb-12">
+        <div className="flex flex-col min-[375px]:flex-row items-start gap-8 w-full">
             {/* Poster Skeleton */}
             <div className="w-48 md:w-64 flex-shrink-0 rounded-lg overflow-hidden bg-slate-700 animate-pulse">
               <div className="aspect-[2/3]"></div>
