@@ -321,11 +321,11 @@ export default function WatchDonghuaPage() {
                 Navigasi Episode
               </h3>
               <div className="flex flex-col gap-3">
-                {episodeInfo.navigation.next_episode && (
+                {episodeInfo.navigation.previous_episode && (
                   <button
                     onClick={() =>
                       navigateToEpisode(
-                        episodeInfo.navigation.next_episode.slug
+                        episodeInfo.navigation.previous_episode.slug
                       )
                     }
                     className="py-2 px-3 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded text-sm transition-colors flex items-center"
@@ -348,11 +348,11 @@ export default function WatchDonghuaPage() {
                   </button>
                 )}
 
-                {episodeInfo.navigation.previous_episode && (
+                {episodeInfo.navigation.next_episode && (
                   <button
                     onClick={() =>
                       navigateToEpisode(
-                        episodeInfo.navigation.previous_episode.slug
+                        episodeInfo.navigation.next_episode.slug
                       )
                     }
                     className="py-2 px-3 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded text-sm transition-colors flex items-center justify-between"

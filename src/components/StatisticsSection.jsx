@@ -3,6 +3,38 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { getAnimeUrl } from "../lib/apiConfig";
 
+// Komponen terpisah untuk Histats Counter
+const HistatsCounter = () => {
+  useEffect(() => {
+    // Pastikan kode hanya berjalan di browser
+    if (typeof window !== 'undefined') {
+      // Buat variabel Histats jika belum ada
+      window._Hasync = window._Hasync || [];
+      window._Hasync.push(['Histats.start', '1,4942279,4,602,110,40,00001001']);
+      window._Hasync.push(['Histats.fasi', '1']);
+      window._Hasync.push(['Histats.track_hits', '']);
+      
+      // Buat dan tambahkan script
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.src = '//s10.histats.com/js15_as.js';
+      document.head.appendChild(script);
+    }
+  }, []);
+  
+  return (
+    <>
+      <div id="histats_counter"></div>
+      <noscript>
+        <a href="/" target="_blank" rel="noreferrer">
+          <img src="//sstatic1.histats.com/0.gif?4942279&101" alt="free website stats program" border="0" />
+        </a>
+      </noscript>
+    </>
+  );
+};
+
 const StatisticsSection = () => {
   // Hitung donghua count berdasarkan formula
   const donghuaCountValue = (20 * 5) + (20 * 20 * 48); // ongoing + completed
@@ -185,7 +217,7 @@ const StatisticsSection = () => {
     },
     {
       title: "Pengguna",
-      value: formatNumber(stats.userCount),
+      hasCustomValue: true,
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
           <path fillRule="evenodd" d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z" clipRule="evenodd" />
@@ -221,7 +253,13 @@ const StatisticsSection = () => {
               <div className={`inline-flex items-center justify-center w-16 h-16 rounded-lg bg-gradient-to-br ${item.color} mb-4 text-white`}>
                 {item.icon}
               </div>
-              <div className="text-xl md:text-2xl font-bold text-white">{item.value}+</div>
+              {item.hasCustomValue ? (
+                <div className="text-xl md:text-2xl">
+                  <HistatsCounter />
+                </div>
+              ) : (
+                <div className="text-xl md:text-2xl font-bold text-white">{item.value}+</div>
+              )}
               <div className="text-gray-400 text-sm mt-1">{item.title}</div>
             </motion.div>
           ))}
