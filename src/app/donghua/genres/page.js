@@ -85,7 +85,7 @@ export default function DonghuaGenresPage() {
       <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-            <div className="flex items-center text-sm">
+            <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
               <span className="mx-2 text-gray-600">/</span>
               <Link href="/donghua" className="text-gray-400 hover:text-white transition-colors">Donghua</Link>
@@ -98,39 +98,57 @@ export default function DonghuaGenresPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <h1 className="text-3xl font-bold text-white mb-0">Daftar Genre Donghua</h1>
-          
-          {/* Navigation Buttons */}
-          <div className="flex space-x-2">
-            <Link href="/donghua" className="px-3 py-2 bg-blue-800/30 text-sm rounded-md text-blue-200 hover:bg-blue-700/30 transition-colors flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-              </svg>
-              Semua Donghua
-            </Link>
-            <Link href="/donghua?status=ongoing" className="px-3 py-2 bg-blue-800/30 text-sm rounded-md text-blue-200 hover:bg-blue-700/30 transition-colors flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-              </svg>
-              Ongoing
-            </Link>
-            <Link href="/donghua?status=completed" className="px-3 py-2 bg-blue-800/30 text-sm rounded-md text-blue-200 hover:bg-blue-700/30 transition-colors flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Completed
-            </Link>
-            <Link href="/donghua/seasons" className="px-3 py-2 bg-blue-800/30 text-sm rounded-md text-blue-200 hover:bg-blue-700/30 transition-colors flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-              </svg>
-              Seasons
-            </Link>
+      {/* Header Banner */}
+      <div className="bg-[#0f1729] border-b border-gray-800">
+        <div className="relative">
+          <div className="container mx-auto px-4 py-12 relative z-20">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-4xl font-bold text-white mb-2 flex items-center">
+                  <span className="mr-3 text-5xl text-blue-400 opacity-80">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
+                    </svg>
+                  </span>
+                  Genre
+                </h1>
+                <p className="text-gray-300">
+                  Jelajahi donghua berdasarkan genre dan kategori
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
+                <Link href="/donghua" className="px-3 py-1.5 bg-blue-600/50 hover:bg-blue-600/80 text-white text-sm rounded transition-colors flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  </svg>
+                  Semua Donghua
+                </Link>
+                <Link href="/donghua?status=ongoing" className="px-3 py-1.5 bg-blue-600/50 hover:bg-blue-600/80 text-white text-sm rounded transition-colors flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                  </svg>
+                  Ongoing
+                </Link>
+                <Link href="/donghua?status=completed" className="px-3 py-1.5 bg-blue-600/50 hover:bg-blue-600/80 text-white text-sm rounded transition-colors flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Completed
+                </Link>
+                <Link href="/donghua/seasons" className="px-3 py-1.5 bg-blue-600/50 hover:bg-blue-600/80 text-white text-sm rounded transition-colors flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                  </svg>
+                  Seasons
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
+      <div className="container mx-auto px-4 pt-8">
         {/* Search Bar */}
         <div className="mb-8">
           <div className="relative max-w-lg">
@@ -219,9 +237,26 @@ function LoadingState() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
-        <div className="h-10 bg-gray-700 rounded w-64 mb-8 animate-pulse"></div>
+      {/* Header Banner Skeleton */}
+      <div className="bg-[#0f1729] border-b border-gray-800">
+        <div className="relative">
+          <div className="container mx-auto px-4 py-12 relative z-20">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div className="h-10 bg-gray-700 rounded w-64 mb-2 animate-pulse"></div>
+                <div className="h-4 bg-gray-700 rounded w-48 animate-pulse"></div>
+              </div>
+              <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-8 bg-gray-700 rounded w-24 animate-pulse"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div className="container mx-auto px-4 pt-8">
         {/* Search Bar Skeleton */}
         <div className="h-12 bg-gray-700 rounded max-w-lg mb-8 animate-pulse"></div>
 
