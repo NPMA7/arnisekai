@@ -77,7 +77,7 @@ export default function AnimePage() {
         <AnimeSection 
           title="Anime Ongoing"
           linkUrl="/anime/ongoing"
-          items={animeData?.data?.onging_anime || []}
+          items={animeData?.data?.ongoing_anime || []}
           type="ongoing"
           loading={loading}
         />
