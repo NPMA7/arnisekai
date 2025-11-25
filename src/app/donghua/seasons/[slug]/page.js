@@ -227,10 +227,10 @@ export default function DonghuaSeasonDetailPage() {
   const totalDonghua = filteredDonghua.length;
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Breadcrumb Navigation */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
@@ -257,7 +257,7 @@ export default function DonghuaSeasonDetailPage() {
       />
 
       {/* Konten season (search, filter, list donghua) */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 py-8">
         {/* Search dan Filter Section */}
         <div className="mb-8 flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
           {/* Search Box */}

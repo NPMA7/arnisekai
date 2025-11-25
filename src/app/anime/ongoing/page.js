@@ -75,9 +75,9 @@ export default function OngoingAnimePage() {
   const currentPage = animeData?.data?.pagination?.current_page || Number(pageNumber);
 
   return (
-    <div className="bg-[#0f1729] mx-auto px-4 py-8">
+    <div className="bg-[#0f1729] mx-auto p-4 py-8">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20 mb-8">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20 mb-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
@@ -102,11 +102,11 @@ export default function OngoingAnimePage() {
       </div>
 
       {/* Header Section */}
-      <div className="relative mb-12 overflow-hidden rounded-2xl">
+      <div className="container mx-auto relative mb-12 overflow-hidden rounded-2xl">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-90"></div>
         <div className="absolute inset-0 bg-[url('/donghua-pattern.jpg')] bg-cover opacity-30 mix-blend-overlay"></div>
         
-        <div className="relative z-10 p-8 md:p-12">
+        <div className="container mx-auto relative z-10 p-8 md:p-12">
           <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-indigo-300 mb-4">
             Anime Ongoing
           </h1>
@@ -132,7 +132,7 @@ export default function OngoingAnimePage() {
       </div>
 
       {/* Ongoing Anime Grid */}
-      <section className="mb-16">
+      <section className="container mx-auto mb-16">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white">
             {currentPage > 1 ? `Anime Ongoing - Halaman ${currentPage}` : "Anime Ongoing"}
@@ -142,7 +142,7 @@ export default function OngoingAnimePage() {
           </div>
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+        <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
           {animeData?.data?.animes?.map((anime, index) => (
             <Link key={index} href={`/anime/${anime.slug}`} className="group">
               <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-blue-900/30 hover:shadow-xl transition-all duration-300">
@@ -278,12 +278,12 @@ export default function OngoingAnimePage() {
 // Loading state component
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] mx-auto px-4 py-8">
+    <div className="bg-[#0f1729] mx-auto p-4 py-8">
       {/* Header Section Skeleton */}
-      <div className="relative mb-12 overflow-hidden rounded-2xl bg-slate-800 animate-pulse h-48"></div>
+      <div className="container mx-auto relative mb-12 overflow-hidden rounded-2xl bg-slate-800 animate-pulse h-48"></div>
       
       {/* Ongoing Anime Grid Skeleton */}
-      <div className="mb-16">
+      <div className="container mx-auto mb-16">
         <div className="h-8 bg-slate-800 w-60 rounded mb-6 animate-pulse"></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
           {[...Array(18)].map((_, index) => (

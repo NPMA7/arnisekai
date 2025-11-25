@@ -140,9 +140,9 @@ export default function AnimeDetailPage() {
   const hasMoreEpisodes = filteredAndSortedEpisodes.length > visibleEpisodes;
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
@@ -158,7 +158,7 @@ export default function AnimeDetailPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Hero Section - Styled like donghua */}
         <div className="flex flex-col md:flex-row gap-8">
           {/* Poster */}
@@ -387,7 +387,7 @@ export default function AnimeDetailPage() {
               </div>
               
               {/* Episode List */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {displayedEpisodes.map((episode, index) => (
                   <Link 
                     key={index}
@@ -489,10 +489,10 @@ function InfoItem({ label, value }) {
 
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Breadcrumb skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <div className="h-4 bg-slate-700 w-16 rounded animate-pulse"></div>
@@ -506,7 +506,7 @@ function LoadingState() {
         </div>
       </div>
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Hero Section Skeleton */}
         <div className="flex flex-col md:flex-row gap-8">
           {/* Poster Skeleton */}

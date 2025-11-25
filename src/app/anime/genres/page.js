@@ -62,7 +62,7 @@ export default function AnimeGenresPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
+      <div className="container mx-auto min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-red-500 mb-2">Error</h2>
           <p className="text-gray-300 mb-4">{error}</p>
@@ -78,9 +78,9 @@ export default function AnimeGenresPage() {
   }
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Section */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm">
@@ -96,7 +96,7 @@ export default function AnimeGenresPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+      <div className="container mx-auto p-4 pt-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1 className="text-3xl font-bold text-white mb-0">Daftar Genre Anime</h1>
           
@@ -208,15 +208,15 @@ export default function AnimeGenresPage() {
 
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="h-4 bg-gray-700 rounded w-60 animate-pulse"></div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+      <div className="container mx-auto p-4 pt-8">
         <div className="h-10 bg-gray-700 rounded w-64 mb-8 animate-pulse"></div>
 
         {/* Search Bar Skeleton */}

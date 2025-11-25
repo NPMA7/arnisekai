@@ -105,10 +105,10 @@ export default function AnimeSearchPage() {
   const decodedQuery = decodeURIComponent(searchQuery);
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
@@ -134,7 +134,7 @@ export default function AnimeSearchPage() {
 
       {/* Header Pencarian */}
       <div className="bg-[#0f1729] border-b border-gray-800">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto p-4 py-12">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-4xl font-bold text-white mb-2 flex items-center">
@@ -180,7 +180,7 @@ export default function AnimeSearchPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Sort Bar */}
         <div className="bg-[#121a2e] border border-gray-800 rounded-lg p-4 mb-8">
           <div className="flex items-center justify-between gap-4">
@@ -206,7 +206,7 @@ export default function AnimeSearchPage() {
 
         {/* Anime Grid */}
         {sortedResults.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+          <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
             {sortedResults.map((anime, index) => (
               <Link 
                 key={index}
@@ -332,21 +332,21 @@ export default function AnimeSearchPage() {
 // Loading state component
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Section Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="h-8 bg-gray-800 rounded w-64 animate-pulse"></div>
         </div>
       </div>
       
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto p-4 py-12">
         <div className="h-10 bg-gray-800 rounded w-3/4 mb-4 animate-pulse"></div>
         <div className="h-6 bg-gray-800 rounded w-1/3 animate-pulse"></div>
       </div>
       
       {/* Sort Bar Skeleton */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto p-4">
         <div className="bg-[#121a2e] border border-gray-800 rounded-lg p-4 mb-8">
           <div className="flex justify-between">
             <div className="h-6 bg-gray-800 rounded w-48 animate-pulse"></div>
@@ -355,7 +355,7 @@ function LoadingState() {
         </div>
         
         {/* Grid Skeleton */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+        <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
           {[...Array(15)].map((_, index) => (
             <div key={index} className="bg-[#121a2e] border border-gray-800 rounded-lg overflow-hidden">
               <div className="aspect-[2/3] bg-gray-800 animate-pulse"></div>

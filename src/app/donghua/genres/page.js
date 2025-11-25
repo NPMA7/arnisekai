@@ -79,7 +79,7 @@ export default function DonghuaGenresPage() {
   const filteredGenres = getFilteredGenres();
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
    
       {/* Header Section */}
       <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
@@ -99,7 +99,7 @@ export default function DonghuaGenresPage() {
       </div>
 
       {/* Header Banner */}
-      <div className="bg-[#0f1729] border-b border-gray-800">
+      <div className="container mx-auto bg-[#0f1729] border-b border-gray-800">
         <div className="relative">
           <div className="container mx-auto px-4 py-12 relative z-20">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -231,14 +231,14 @@ function LoadingState() {
   return (
     <div className="bg-[#0f1729] min-h-screen pb-16">
       {/* Header Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="h-4 bg-gray-700 rounded w-60 animate-pulse"></div>
         </div>
       </div>
 
       {/* Header Banner Skeleton */}
-      <div className="bg-[#0f1729] border-b border-gray-800">
+      <div className="container mx-auto bg-[#0f1729] border-b border-gray-800">
         <div className="relative">
           <div className="container mx-auto px-4 py-12 relative z-20">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -256,7 +256,7 @@ function LoadingState() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Search Bar Skeleton */}
         <div className="h-12 bg-gray-700 rounded max-w-lg mb-8 animate-pulse"></div>
 

@@ -114,9 +114,9 @@ export default function AnimeBatchDownloadPage() {
     : "bg-red-600 text-red-100";
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
@@ -140,7 +140,7 @@ export default function AnimeBatchDownloadPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Hero Section */}
         <div className="flex flex-col md:flex-row gap-8">
           {/* Poster */}
@@ -337,9 +337,9 @@ function InfoItem({ label, value }) {
 
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Breadcrumb Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
@@ -356,7 +356,7 @@ function LoadingState() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Hero Section Skeleton */}
         <div className="flex flex-col md:flex-row gap-8">
           {/* Poster Skeleton */}

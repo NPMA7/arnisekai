@@ -19,10 +19,48 @@ export default function AnimeCard({ item, type = "ongoing", loading = false, sho
 
   if (!item) return null;
 
-  // Menangani URL berdasarkan contentType
-  const url = item.url || (item.contentType === 'donghua' 
-    ? `/donghua/${item.slug}` 
-    : `/anime/${item.slug}`);
+  const getLocalUrl = () => {
+    if (!item.url) {
+      // Jika tidak ada URL, gunakan slug jika tersedia
+      return item.slug ? `/anime/${item.slug}` : '/anime';
+    }
+    
+    // Handle URL untuk episode
+    if (type === "latest" && item.url.includes('/episode/')) {
+      // Ekstrak slug episode
+      let slug = '';
+      if (item.url.includes('anichin/episode/')) {
+        slug = item.url.split('anichin/episode/').pop();
+      } else if (item.url.includes('/episode/')) {
+        slug = item.url.split('/episode/').pop();
+      }
+      
+      return slug ? `/anime/watch/${slug}` : '/anime';
+    } 
+    
+    // Handle URL untuk detail donghua
+    if (item.url.includes('/detail/')) {
+      // Ekstrak slug donghua
+      let slug = '';
+      if (item.url.includes('anichin/detail/')) {
+        slug = item.url.split('anichin/detail/').pop();
+      } else if (item.url.includes('/detail/')) {
+        slug = item.url.split('/detail/').pop();
+      }
+      
+      return slug ? `/anime/${slug}` : '/anime';
+    }
+    
+    // Jika ada slug dalam item tapi format URL tidak dikenali
+    if (item.slug) {
+      return `/anime/${item.slug}`;
+    }
+    
+    // Fallback, gunakan URL asli
+    return item.url;
+  };
+
+  const url = getLocalUrl();
 
   // Menangani judul untuk tipe ongoing vs completed
   const title = item.title || "";

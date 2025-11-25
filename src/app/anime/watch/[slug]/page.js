@@ -256,9 +256,9 @@ export default function WatchAnimePage() {
   const downloadTypes = Object.keys(episodeInfo.download || {});
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
@@ -293,7 +293,7 @@ export default function WatchAnimePage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto p-4 pt-8">
         {/* Main Title */}
         <h1 className="text-2xl md:text-3xl font-bold text-white mb-6 flex flex-wrap items-center">
           {animeTitle} 
@@ -674,10 +674,10 @@ export default function WatchAnimePage() {
 
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Breadcrumb Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <div className="h-4 bg-slate-700 w-16 rounded animate-pulse"></div>
@@ -693,7 +693,7 @@ function LoadingState() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Title Skeleton */}
         <div className="h-8 bg-slate-700 w-2/3 rounded animate-pulse mb-6"></div>
       

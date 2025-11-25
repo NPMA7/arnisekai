@@ -77,10 +77,10 @@ export default function AnimeListPage() {
   const pagination = animeData?.data?.pagination || {};
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Section */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
@@ -103,7 +103,7 @@ export default function AnimeListPage() {
 
       {/* Header Banner */}
       <div className="bg-[#0f1729] border-b border-gray-800">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto p-4 py-12">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-4xl font-bold text-white mb-2 flex items-center">
@@ -152,7 +152,7 @@ export default function AnimeListPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Search Bar for Filtering Results */}
         <div className="bg-[#121a2e] border border-gray-800 rounded-lg p-4 mb-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -176,7 +176,7 @@ export default function AnimeListPage() {
         </div>
 
         {/* Anime Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+        <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
           {animes
             .filter(anime => 
               anime.title.toLowerCase().includes(searchInput.toLowerCase())
@@ -280,10 +280,10 @@ export default function AnimeListPage() {
 
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Section */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <div className="h-4 bg-slate-800 w-16 rounded animate-pulse"></div>
@@ -300,7 +300,7 @@ function LoadingState() {
 
       {/* Header Banner - Loading State */}
       <div className="bg-[#0f1729] border-b border-gray-800">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto p-4 py-12">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="h-10 bg-slate-800 w-64 rounded mb-2 animate-pulse"></div>
@@ -317,7 +317,7 @@ function LoadingState() {
       </div>
 
       {/* Main Content - Loading State */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Search Bar - Loading State */}
         <div className="bg-[#121a2e] border border-gray-800 rounded-lg p-4 mb-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -327,7 +327,7 @@ function LoadingState() {
         </div>
 
         {/* Anime Grid - Loading State */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+        <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
           {[...Array(15)].map((_, i) => (
             <div key={i} className="bg-[#121a2e] border border-gray-800 rounded-lg overflow-hidden">
               <div className="aspect-[2/3] relative bg-slate-800 animate-pulse"></div>

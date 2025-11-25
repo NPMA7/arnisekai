@@ -168,10 +168,10 @@ export default function DonghuaSeasonsPage() {
   const filteredSeasons = getFilteredSeasons();
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Section */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
@@ -189,7 +189,7 @@ export default function DonghuaSeasonsPage() {
       {/* Header Banner */}
       <div className="bg-[#0f1729] border-b border-gray-800">
         <div className="relative">
-          <div className="container mx-auto px-4 py-12 relative z-20">
+          <div className="container mx-auto p-4 py-12 relative z-20">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h1 className="text-4xl font-bold text-white mb-2 flex items-center">
@@ -236,7 +236,7 @@ export default function DonghuaSeasonsPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+        <div className="container mx-auto p-4 pt-8">
         {/* Filter & Search Bar */}
         <div className="bg-[#121a2e] border border-gray-800 rounded-lg p-4 mb-8">
           <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -366,23 +366,23 @@ export default function DonghuaSeasonsPage() {
 
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="h-4 bg-gray-700 rounded w-60 animate-pulse"></div>
         </div>
       </div>
 
       {/* Banner Skeleton */}
       <div className="bg-[#0f1729] border-b border-gray-800 py-12">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto p-4">
           <div className="h-10 bg-gray-700 rounded w-64 mb-4 animate-pulse"></div>
           <div className="h-5 bg-gray-700 rounded w-96 animate-pulse"></div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+        <div className="container mx-auto p-4 pt-8">
         {/* Filter & Search Bar Skeleton */}
         <div className="bg-[#121a2e] border border-gray-800 rounded-lg p-4 mb-8">
           <div className="flex flex-col sm:flex-row justify-between gap-4">

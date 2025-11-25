@@ -57,7 +57,7 @@ export default function CompletedAnimePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="container mx-auto min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-red-500 mb-2">Error</h2>
           <p className="text-gray-300 mb-4">{error}</p>
@@ -75,9 +75,9 @@ export default function CompletedAnimePage() {
   const currentPage = animeData?.data?.pagination?.current_page || Number(pageNumber);
 
   return (
-    <div className="bg-[#0f1729] mx-auto px-4 py-8">
+    <div className="bg-[#0f1729] mx-auto p-4 py-8">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20 mb-8">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20 mb-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
@@ -103,11 +103,11 @@ export default function CompletedAnimePage() {
 
 
       {/* Header Section */}
-      <div className="relative mb-12 overflow-hidden rounded-2xl">
+      <div className="container mx-auto relative mb-12 overflow-hidden rounded-2xl">
         <div className="absolute inset-0 bg-gradient-to-r from-red-900 to-rose-900 opacity-90"></div>
         <div className="absolute inset-0 bg-[url('/donghua-pattern.jpg')] bg-cover opacity-30 mix-blend-overlay"></div>
         
-        <div className="relative z-10 p-8 md:p-12">
+        <div className="container mx-auto relative z-10 p-8 md:p-12">
           <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-300 to-rose-300 mb-4">
             Anime Completed
           </h1>
@@ -133,7 +133,7 @@ export default function CompletedAnimePage() {
       </div>
 
       {/* Completed Anime Grid */}
-      <section className="mb-16">
+      <section className="container mx-auto mb-16">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white">
             {currentPage > 1 ? `Anime Completed - Halaman ${currentPage}` : "Anime Completed"}
@@ -279,12 +279,12 @@ export default function CompletedAnimePage() {
 // Loading state component
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] mx-auto px-4 py-8">
+    <div className="bg-[#0f1729] mx-auto p-4 py-8">
       {/* Header Section Skeleton */}
-      <div className="relative mb-12 overflow-hidden rounded-2xl bg-slate-800 animate-pulse h-48"></div>
+      <div className="container mx-auto relative mb-12 overflow-hidden rounded-2xl bg-slate-800 animate-pulse h-48"></div>
       
       {/* Completed Anime Grid Skeleton */}
-      <div className="mb-16">
+      <div className="container mx-auto mb-16">
         <div className="h-8 bg-slate-800 w-60 rounded mb-6 animate-pulse"></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
           {[...Array(18)].map((_, index) => (

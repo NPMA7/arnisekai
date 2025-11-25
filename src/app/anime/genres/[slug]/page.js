@@ -194,10 +194,10 @@ export default function AnimeGenrePage() {
   const totalAnimeCount = isSearchMode ? allAnime.length : (totalAnime * totalPages);
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Section */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
@@ -228,7 +228,7 @@ export default function AnimeGenrePage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+        <div className="container mx-auto p-4 pt-8">
         {/* Title and Controls */}
         <div className="mb-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
@@ -343,13 +343,13 @@ export default function AnimeGenrePage() {
 
         {/* Anime Grid */}
         {isLoadingAll ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
+          <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
             {[...Array(10)].map((_, index) => (
               <div key={index} className="rounded-lg aspect-[2/3] bg-gray-700 animate-pulse"></div>
             ))}
           </div>
         ) : filteredAnime.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
+          <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
             {filteredAnime.map((anime, index) => (
               <Link key={index} href={`/anime/${anime.slug}`} className="group">
                 <div className="relative overflow-hidden rounded-lg aspect-[2/3] bg-slate-800/40 shadow-lg hover:shadow-red-900/30 hover:shadow-xl transition-all duration-300">
@@ -416,7 +416,7 @@ export default function AnimeGenrePage() {
 
         {/* Pagination - hanya tampilkan jika tidak dalam mode pencarian */}
         {!isSearchMode && totalPages > 1 && (
-          <div className="mt-8 flex justify-center">
+          <div className="container mx-auto mt-8 flex justify-center">
             <div className="flex flex-wrap items-center justify-center gap-2">
               {/* Tombol Previous */}
               <button 
@@ -516,15 +516,15 @@ export default function AnimeGenrePage() {
 // Loading state component
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Header Section Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="h-4 bg-gray-700 rounded w-60 animate-pulse"></div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Title Skeleton */}
         <div className="mb-8">
           <div className="h-8 bg-gray-700 rounded w-64 mb-4 animate-pulse"></div>
@@ -533,7 +533,7 @@ function LoadingState() {
         </div>
 
         {/* Anime Grid Skeleton */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
+        <div className="container mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
           {[...Array(10)].map((_, index) => (
             <div key={index} className="rounded-lg aspect-[2/3] bg-gray-700 animate-pulse"></div>
           ))}

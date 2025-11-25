@@ -105,10 +105,10 @@ export default function DonghuaSearchPage() {
   const decodedQuery = decodeURIComponent(searchQuery);
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link>
@@ -131,7 +131,7 @@ export default function DonghuaSearchPage() {
 
       {/* Header Pencarian */}
       <div className="bg-[#0f1729] border-b border-gray-800">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto p-4 py-12">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-4xl font-bold text-white mb-2 flex items-center">
@@ -184,7 +184,7 @@ export default function DonghuaSearchPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8">
+      <div className="container mx-auto p-4 pt-8">
         {/* Sort Bar */}
         <div className="bg-[#121a2e] border border-gray-800 rounded-lg p-4 mb-8">
           <div className="flex items-center justify-between gap-4">

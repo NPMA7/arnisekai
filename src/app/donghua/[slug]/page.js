@@ -134,7 +134,7 @@ export default function DonghuaDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
+      <div className="container mx-auto min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-red-500 mb-2">Error</h2>
           <p className="text-gray-300 mb-4">{error}</p>
@@ -152,7 +152,7 @@ export default function DonghuaDetailPage() {
   const donghua = donghuaData?.data;
   if (!donghua) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
+      <div className="container mx-auto min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-yellow-500 mb-2">Donghua Tidak Ditemukan</h2>
           <p className="text-gray-300 mb-4">Maaf, donghua yang Anda cari tidak tersedia.</p>
@@ -173,9 +173,9 @@ export default function DonghuaDetailPage() {
     : "bg-indigo-600 text-indigo-100";
 
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Navigasi Breadcrumb */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
@@ -192,7 +192,7 @@ export default function DonghuaDetailPage() {
       </div>
 
       {/* Hero Banner */}
-      <div className="relative w-full">
+      <div className="container mx-auto p-4 relative w-full">
         {/* Background Image (blurred) */}
         <div className="absolute inset-0">
           <Image 
@@ -206,7 +206,7 @@ export default function DonghuaDetailPage() {
         </div>
         
         {/* Content Container */}
-        <div className="container mx-auto px-4 relative z-10 flex items-end pb-16 ">
+          <div className="container mx-auto relative z-10 flex items-end pb-16 ">
           <div className="flex flex-col min-[375px]:flex-row items-start gap-8 w-full">
             {/* Poster */}
             <div className="w-48 md:w-64 flex-shrink-0 rounded-lg overflow-hidden shadow-xl shadow-black/30 border-2 border-gray-800">
@@ -648,10 +648,10 @@ function InfoItem({ label, value }) {
 // Loading state component
 function LoadingState() {
   return (
-    <div className="bg-[#0f1729] min-h-screen pb-16">
+    <div className="bg-[#0f1729] mx-auto p-4 min-h-screen pb-16">
       {/* Navigasi Breadcrumb Skeleton */}
-      <div className="bg-[#121a2e] py-3 shadow-md shadow-black/20">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto bg-[#121a2e] py-3 shadow-md shadow-black/20">
+        <div className="container mx-auto p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center text-sm flex-wrap">
               <div className="h-4 w-16 bg-slate-700 rounded animate-pulse"></div>
@@ -667,9 +667,9 @@ function LoadingState() {
       </div>
 
       {/* Hero Banner Skeleton */}
-      <div className="relative w-full">
+      <div className="container mx-auto p-4 relative w-full">
         <div className="absolute inset-0 bg-slate-800 animate-pulse"></div>
-        <div className="container mx-auto px-4 relative z-10 flex items-end pb-12">
+        <div className="relative z-10 flex items-end pb-12">
         <div className="flex flex-col min-[375px]:flex-row items-start gap-8 w-full">
             {/* Poster Skeleton */}
             <div className="w-48 md:w-64 flex-shrink-0 rounded-lg overflow-hidden bg-slate-700 animate-pulse">
@@ -707,7 +707,7 @@ function LoadingState() {
       </div>
       
       {/* Main Content Skeleton */}
-      <div className="container mx-auto px-4 mt-8">
+      <div className="container mx-auto p-4 mt-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="col-span-1 lg:col-span-2">
             <div className="bg-slate-800/40 p-6 rounded-lg mb-8">
